@@ -4,16 +4,15 @@ export interface TFractalConfig {
     drawCount?: number;
     width?: number;
     height?: number;
-    pointSize?: number;
-    edges?: number;
 }
 
 interface DrawObject {
     x: number;
     y: number;
+    size: number;
 }
 
-export class RandomLineFractal implements Fractal {
+export class TFractal implements Fractal {
     public config: TFractalConfig;
     public ctx: CanvasRenderingContext2D;
 
@@ -24,8 +23,6 @@ export class RandomLineFractal implements Fractal {
         this.config = {
             ...config, 
             drawCount: 400,
-            edges: 3,
-            pointSize: 0.2,
             width: innerWidth,
             height: innerHeight
         }
@@ -34,7 +31,7 @@ export class RandomLineFractal implements Fractal {
 
         this.draw = this.draw.bind(this);
 
-        this.sequence = sequence(this.config.width, this.config.height, this.config.edges);
+        this.sequence = sequence(this.config.width, this.config.height);
         this.start();
     }
     start() {
@@ -46,7 +43,7 @@ export class RandomLineFractal implements Fractal {
     }
     refresh() {
         this.destroy();
-        this.sequence = sequence(this.config.width, this.config.height, this.config.edges);
+        this.sequence = sequence(this.config.width, this.config.height);
         this.start();
     }
     destroy() {
@@ -55,47 +52,34 @@ export class RandomLineFractal implements Fractal {
         this.ctx.clearRect(0, 0, this.config.width, this.config.height);
     }
     private ctxGlobals() {
-        this.ctx.fillStyle = "#000";
+        this.ctx.strokeStyle = "rgba(0,0,0,0.2)";
     }
     private draw() {
         let count = this.config.drawCount;
         while (count) {
-            const {x, y} = this.sequence.next().value;
-            this.ctx.beginPath();
-            this.ctx.arc(x, y, this.config.pointSize, 0, 2 * Math.PI, true);
-            this.ctx.fill();
+            const {x, y, size} = this.sequence.next().value;
+            this.ctx.rect(x, y, size, size);
             count--;
         }
+        this.ctx.stroke();
         if (this.running) {
             requestAnimationFrame(this.draw);
         }
     }
 }
 
-function random(value) {
-    return Math.floor(Math.random() * value);
-}
-
-function* sequence(width, height, count): IterableIterator<DrawObject> {
-    const points = [];
-    for (let i=0; i<count; i++) {
-        const point = {
-            x: random(width),
-            y: random(height)
-        }
-        yield point;
-        points.push(point);
-    }
-
-    let active = points[random(count)];
-
+function* sequence(width, height): IterableIterator<DrawObject> {
+    let size = 4;
     while(true) {
-        const target = points[random(count)];
-
-        const x = (target.x + active.x) / 2;
-        const y = (target.y + active.y) / 2;
-        
-        active = {x, y};
-        yield active;
+        for (let x=0; x<width; x+=size) {
+            for (let y=0; y<height; y+=size) {
+                yield {
+                    x, 
+                    y,
+                    size
+                };
+            }
+        }
+        size += 4;
     }
 }

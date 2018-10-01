@@ -1,18 +1,18 @@
 import { FractalType } from "./types";
-import { prime } from "./fractals/prime";
-import { tFractal } from "./fractals/t";
-import { randomFractal } from "./fractals/randomLine";
-import { xFractal } from "./fractals/xFractal";
+import { PrimeFractal } from "./fractals/prime";
+import { TFractal } from "./fractals/tFractal";
+import { RandomLineFractal } from "./fractals/randomLine";
+import { XFractal } from "./fractals/xFractal";
 
 export function factory(type: FractalType) {
     switch(type) {
         case FractalType.prime:
-            return prime;
+            return PrimeFractal;
         case FractalType.randomLine:
-            return randomFractal;
+            return RandomLineFractal;
         case FractalType.t:
-            return tFractal;
+            return TFractal;
         case FractalType.x:
-            return xFractal;
+            return XFractal;
     }
 }
