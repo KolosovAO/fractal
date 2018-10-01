@@ -32,9 +32,11 @@ export class TFractal implements Fractal {
         this.draw = this.draw.bind(this);
 
         this.sequence = sequence(this.config.width, this.config.height);
-        this.start();
     }
     start() {
+        if (this.running) {
+            return;
+        }
         this.running = true;
         requestAnimationFrame(this.draw);
     }

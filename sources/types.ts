@@ -1,8 +1,8 @@
 export enum FractalType {
-    randomLine,
-    t,
-    prime,
-    x
+    randomLine = "random",
+    t = "t",
+    prime = "prime",
+    x = "x"
 }
 
 

@@ -4,15 +4,15 @@ import { TFractal } from "./fractals/tFractal";
 import { RandomLineFractal } from "./fractals/randomLine";
 import { XFractal } from "./fractals/xFractal";
 
-export function factory(type: FractalType) {
+export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config: any) {
     switch(type) {
         case FractalType.prime:
-            return PrimeFractal;
+            return new PrimeFractal(ctx, config);
         case FractalType.randomLine:
-            return RandomLineFractal;
+            return new RandomLineFractal(ctx, config);
         case FractalType.t:
-            return TFractal;
+            return new TFractal(ctx, config);
         case FractalType.x:
-            return XFractal;
+            return new XFractal(ctx, config);
     }
 }

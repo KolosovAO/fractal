@@ -1,5 +1,8 @@
 import { FractalType } from "./types";
 import { factory } from "./fractalFactory";
+import {Popup} from "./popup";
+
+let fractal;
 
 document.addEventListener("DOMContentLoaded", () => {
     const canvas: any = document.querySelector("#app");
@@ -14,8 +17,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const ctx = canvas.getContext("2d");
 
-    const type = FractalType.t;
-    const fractalObj = factory(type);
+    let index = 0;
 
-    const fractal = new fractalObj(ctx, {width, height});
+    const fractals = Object.keys(FractalType).map(type => factory(FractalType[type] as any, ctx, {width, height}));
+
+    const popup = new Popup(document.body);
+
+    fractal = fractals[0];
+    fractal.start();
+
+    popup.onDestroy = () => fractal.destroy();
+    popup.onRefresh = () => fractal.refresh();
+    popup.onStart = () => fractal.start();
+    popup.onStop = () => fractal.stop();
+    popup.onNext = () => {
+        index++;
+        fractal.destroy();
+        fractal = fractals[index % fractals.length];
+        fractal.start();
+    };
+    
+    canvas.addEventListener("click", () => {
+        popup.show();
+    });
+
 });
