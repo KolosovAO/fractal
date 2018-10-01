@@ -1,0 +1,27 @@
+{
+  "name": "fractal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KolosovAO/fractal.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KolosovAO/fractal/issues"
+  },
+  "homepage": "https://github.com/KolosovAO/fractal#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "ts-loader": "^5.2.1",
+    "typescript": "^3.1.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9"
+  }
+}
