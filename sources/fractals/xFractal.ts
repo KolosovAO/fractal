@@ -33,9 +33,10 @@ export class XFractal implements Fractal {
         this.draw = this.draw.bind(this);
 
         this.sequence = sequence(this.config.width, this.config.height);
+        this.start();
     }
     start() {
-        if (this.running) {
+        if (this.running || !this.sequence) {
             return;
         }
         this.running = true;
@@ -60,7 +61,7 @@ export class XFractal implements Fractal {
     private draw() {
         let count = this.config.drawCount;
         this.ctx.beginPath();
-        while (count) {
+        while (count && this.running) {
             const point = this.sequence.next().value;
             this.drawX(point);
             count--;

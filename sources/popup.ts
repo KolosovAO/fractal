@@ -2,9 +2,7 @@ export class Popup {
     public container: HTMLElement;
 
     public onRefresh;
-    public onStop;
-    public onDestroy;
-    public onStart;
+    public onResume;
     public onNext;
 
     private control: HTMLElement;
@@ -16,10 +14,8 @@ export class Popup {
         control.className = "control";
 
         control.innerHTML = `
+            <div id="resume">resume</div>
             <div id="refresh">refresh</div>
-            <div id="stop">stop</div>
-            <div id="start">start</div>
-            <div id="destroy">destroy</div>
             <div id="next">next fractal</div>
         `.trim();
 
@@ -29,18 +25,15 @@ export class Popup {
             switch(id) {
                 case "refresh":
                     this.onRefresh();
+                    this.hide();
                     break;
-                case "stop":
-                    this.onStop();
-                    break;
-                case "start":
-                    this.onStart();
-                    break;
-                case "destroy":
-                    this.onDestroy();
+                case "resume":
+                    this.onResume();
+                    this.hide();
                     break;
                 case "next":
                     this.onNext();
+                    this.hide();
                     break;
             }
         }

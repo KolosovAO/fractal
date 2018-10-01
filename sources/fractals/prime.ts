@@ -35,9 +35,10 @@ export class PrimeFractal implements Fractal {
         this.draw = this.draw.bind(this);
 
         this.sequence = sequence(this.config.width, this.config.height, this.config.step);
+        this.start();
     }
     start() {
-        if (this.running) {
+        if (this.running || !this.sequence) {
             return;
         }
         this.running = true;
@@ -63,7 +64,7 @@ export class PrimeFractal implements Fractal {
         let count = this.config.drawCount;
 
         this.ctx.beginPath();
-        while (count) {
+        while (count && this.running) {
             const {x1, y1, x2, y2} = this.sequence.next().value;
             this.ctx.moveTo(x1, y1);
             this.ctx.lineTo(x2, y2);

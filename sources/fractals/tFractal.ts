@@ -32,9 +32,10 @@ export class TFractal implements Fractal {
         this.draw = this.draw.bind(this);
 
         this.sequence = sequence(this.config.width, this.config.height);
+        this.start();
     }
     start() {
-        if (this.running) {
+        if (this.running || !this.sequence) {
             return;
         }
         this.running = true;
@@ -58,7 +59,7 @@ export class TFractal implements Fractal {
     }
     private draw() {
         let count = this.config.drawCount;
-        while (count) {
+        while (count && this.running) {
             const {x, y, size} = this.sequence.next().value;
             this.ctx.rect(x, y, size, size);
             count--;
