@@ -1,5 +1,6 @@
 export enum FractalType {
     randomLine,
     t,
-    prime
+    prime,
+    x
 }

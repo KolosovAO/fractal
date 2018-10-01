@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const ctx = canvas.getContext("2d");
 
-    const type = FractalType.t;
+    const type = FractalType.x;
 
     factory(type)(ctx, {width, height});
 });
