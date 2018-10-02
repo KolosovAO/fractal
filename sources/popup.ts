@@ -6,6 +6,7 @@ export class Popup {
     public onNext;
 
     private control: HTMLElement;
+    private opened: boolean;
 
     constructor(container?: HTMLElement) {
         this.container = container;
@@ -42,10 +43,18 @@ export class Popup {
     }
 
     show() {
+        if (this.opened) {
+            return;
+        }
+        this.opened = true;
         this.container.appendChild(this.control);
     }
 
     hide() {
+        if (!this.opened) {
+            return;
+        }
+        this.opened = false;
         this.container.removeChild(this.control);
     }
 }

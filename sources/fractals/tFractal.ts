@@ -1,6 +1,7 @@
 import { Fractal } from "../types";
+import { BaseFractal } from "../baseFractal";
 
-export interface TFractalConfig {
+interface Config {
     drawCount?: number;
     width?: number;
     height?: number;
@@ -12,62 +13,34 @@ interface DrawObject {
     size: number;
 }
 
-export class TFractal implements Fractal {
-    public config: TFractalConfig;
-    public ctx: CanvasRenderingContext2D;
+export class TFractal extends BaseFractal<DrawObject> implements Fractal {
+    public config: Config;
 
-    private running: boolean;
-    private sequence: IterableIterator<DrawObject>;
-
-    constructor(ctx, config = {}) {
+    protected setConfig(config) {
         this.config = {
-            ...config, 
+            ...config,
             drawCount: 400,
             width: innerWidth,
             height: innerHeight
         }
-        this.ctx = ctx;
-        this.ctxGlobals();
+    }
 
-        this.draw = this.draw.bind(this);
+    protected getSequence() {
+        return sequence(this.config.width, this.config.height);
+    }
 
-        this.sequence = sequence(this.config.width, this.config.height);
-        this.start();
-    }
-    start() {
-        if (this.running || !this.sequence) {
-            return;
-        }
-        this.running = true;
-        requestAnimationFrame(this.draw);
-    }
-    stop() {
-        this.running = false;
-    }
-    refresh() {
-        this.destroy();
-        this.sequence = sequence(this.config.width, this.config.height);
-        this.start();
-    }
-    destroy() {
-        this.stop();
-        this.sequence = null;
-        this.ctx.clearRect(0, 0, this.config.width, this.config.height);
-    }
-    private ctxGlobals() {
+    protected ctxGlobals() {
         this.ctx.strokeStyle = "rgba(0,0,0,0.2)";
     }
-    private draw() {
-        let count = this.config.drawCount;
-        while (count && this.running) {
-            const {x, y, size} = this.sequence.next().value;
-            this.ctx.rect(x, y, size, size);
-            count--;
-        }
+    protected onDrawCircleStart() {
+        this.ctx.beginPath();
+    }
+    protected onDrawCircleEnd() {
         this.ctx.stroke();
-        if (this.running) {
-            requestAnimationFrame(this.draw);
-        }
+    }
+
+    protected drawObject({x, y, size}) {
+        this.ctx.rect(x, y, size, size);
     }
 }
 

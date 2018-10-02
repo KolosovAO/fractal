@@ -1,6 +1,7 @@
 import { Fractal } from "../types";
+import { BaseFractal } from "../baseFractal";
 
-export interface TFractalConfig {
+interface Config {
     drawCount?: number;
     width?: number;
     height?: number;
@@ -14,67 +15,32 @@ interface DrawObject {
     y2: number;
 }
 
-export class PrimeFractal implements Fractal {
-    public config: TFractalConfig;
-    public ctx: CanvasRenderingContext2D;
+export class PrimeFractal extends BaseFractal<DrawObject> implements Fractal {
+    public config: Config;
 
-    private running: boolean;
-    private sequence: IterableIterator<DrawObject>;
-
-    constructor(ctx, config = {}) {
+    protected setConfig(config) {
         this.config = {
-            ...config, 
+            ...config,
             drawCount: 20,
             step: 2,
             width: innerWidth,
             height: innerHeight
         }
-        this.ctx = ctx;
-        this.ctxGlobals();
+    }
 
-        this.draw = this.draw.bind(this);
-
-        this.sequence = sequence(this.config.width, this.config.height, this.config.step);
-        this.start();
+    protected getSequence() {
+        return sequence(this.config.width, this.config.height, this.config.step);
     }
-    start() {
-        if (this.running || !this.sequence) {
-            return;
-        }
-        this.running = true;
-        requestAnimationFrame(this.draw);
-    }
-    stop() {
-        this.running = false;
-    }
-    refresh() {
-        this.destroy();
-        this.sequence = sequence(this.config.width, this.config.height, this.config.step);
-        this.start();
-    }
-    destroy() {
-        this.stop();
-        this.sequence = null;
-        this.ctx.clearRect(0, 0, this.config.width, this.config.height);
-    }
-    private ctxGlobals() {
-        // add something
-    }
-    private draw() {
-        let count = this.config.drawCount;
-
+    protected onDrawCircleStart() {
         this.ctx.beginPath();
-        while (count && this.running) {
-            const {x1, y1, x2, y2} = this.sequence.next().value;
-            this.ctx.moveTo(x1, y1);
-            this.ctx.lineTo(x2, y2);
-            count--;
-        }
+    }
+    protected onDrawCircleEnd() {
         this.ctx.stroke();
+    }
 
-        if (this.running) {
-            requestAnimationFrame(this.draw);
-        }
+    protected drawObject({x1, y1, x2, y2}) {
+        this.ctx.moveTo(x1, y1);
+        this.ctx.lineTo(x2, y2);
     }
 }
 

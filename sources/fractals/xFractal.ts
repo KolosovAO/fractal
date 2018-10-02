@@ -1,6 +1,7 @@
 import { Fractal } from "../types";
+import { BaseFractal } from "../baseFractal";
 
-export interface XFractalConfig {
+interface Config {
     drawCount?: number;
     width?: number;
     height?: number;
@@ -13,65 +14,33 @@ interface DrawObject {
     sizeY: number;
 }
 
-export class XFractal implements Fractal {
-    public config: XFractalConfig;
-    public ctx: CanvasRenderingContext2D;
+export class XFractal extends BaseFractal<DrawObject> implements Fractal {
+    public config: Config;
 
-    private running: boolean;
-    private sequence: IterableIterator<DrawObject>;
-
-    constructor(ctx, config = {}) {
+    protected setConfig(config) {
         this.config = {
-            ...config, 
+            ...config,
             drawCount: 40,
             width: innerWidth,
             height: innerHeight
         }
-        this.ctx = ctx;
-        this.ctxGlobals();
+    }
+    
+    protected getSequence() {
+        return sequence(this.config.width, this.config.height);
+    }
 
-        this.draw = this.draw.bind(this);
-
-        this.sequence = sequence(this.config.width, this.config.height);
-        this.start();
-    }
-    start() {
-        if (this.running || !this.sequence) {
-            return;
-        }
-        this.running = true;
-        requestAnimationFrame(this.draw);
-    }
-    stop() {
-        this.running = false;
-    }
-    refresh() {
-        this.destroy();
-        this.sequence = sequence(this.config.width, this.config.height);
-        this.start();
-    }
-    destroy() {
-        this.stop();
-        this.sequence = null;
-        this.ctx.clearRect(0, 0, this.config.width, this.config.height);
-    }
-    private ctxGlobals() {
+    protected ctxGlobals() {
         this.ctx.lineWidth = 0.2;
     }
-    private draw() {
-        let count = this.config.drawCount;
+    protected onDrawCircleStart() {
         this.ctx.beginPath();
-        while (count && this.running) {
-            const point = this.sequence.next().value;
-            this.drawX(point);
-            count--;
-        }
-        this.ctx.stroke();
-        if (this.running) {
-            requestAnimationFrame(this.draw);
-        }
     }
-    private drawX({x, y, sizeX, sizeY}) {
+    protected onDrawCircleEnd() {
+        this.ctx.stroke();
+    }
+
+    protected drawObject({x, y, sizeX, sizeY}) {
         this.ctx.moveTo(x - sizeX / 2, y);
         this.ctx.lineTo(x + sizeX / 2, y);
 
