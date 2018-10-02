@@ -58,10 +58,17 @@ export class Application {
         this.popup.onResume = () => this.fractal.start();
         this.popup.onNext = () => this.nextFractal();
 
-        this.canvas.addEventListener("click", () => {
-            this.fractal.stop();
-            this.popup.show();
+        this.canvas.addEventListener("click", e => this.showMenu(e));
+        this.canvas.addEventListener("contextmenu", e => {
+            e.preventDefault();
+            this.showMenu(e);
         });
+    }
+
+    private showMenu(e) {
+        this.fractal.stop();
+        this.fractal.onCanvasClick(e);
+        this.popup.show();
     }
 
 

@@ -36,6 +36,10 @@ export abstract class BaseFractal<T = any> {
         this.sequence = null;
         this.ctx.clearRect(0, 0, this.config.width, this.config.height);
     }
+    onCanvasClick(e: MouseEvent) {
+        return;
+    }
+
     protected setConfig(config) {
         this.config = {...config,
             width: innerWidth,
@@ -57,7 +61,6 @@ export abstract class BaseFractal<T = any> {
     protected onDrawCircleStart(): void {
         return;
     }
-
     private draw() {
         this.onDrawCircleStart();
 

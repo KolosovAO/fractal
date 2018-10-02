@@ -14,4 +14,5 @@ export interface Fractal {
     stop(): void;
     refresh(): void;
     destroy(): void;
+    onCanvasClick(e): void;
 }
