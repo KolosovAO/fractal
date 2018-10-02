@@ -58,24 +58,28 @@ export class MendelbrotFractal extends BaseFractal<DrawObject> implements Fracta
 }
 
 const toHex = v => v < 16 ? 0 + v.toString(16) : v.toString(16);
-const pallete = Array.from({length: 256}, (_, i) => {
+const pallete = Array.from({length: 768}, (_, i) => {
     let r, g, b;
 
     switch(true) {
-        case i < 85:
-            r = i * 3;
-            g = i * 2;
-            b = i;
+        case i < 256:
+            r = i;
+            g = (i / 2) | 0;
+            b = (i / 3) | 0;
             break;
-        case i < 171:
-            r = i - 84;
-            g = (i - 84) * 3;
-            b = (i - 84) * 2;
+        case i < 512:
+            i = i % 256;
+
+            r = (i / 2) | 0;
+            g = i;
+            b = (i / 3) | 0;
             break;
         default:
-            r = (i - 170) * 2;
-            g = i - 170;
-            b = (i - 170) * 3;
+            i = i % 256;
+
+            r = (i / 3) | 0;
+            g = (i / 2) | 0;
+            b = i;
     }
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 });
@@ -103,7 +107,7 @@ function* sequence(width, height, [xStart, xEnd], [yStart, yEnd]): IterableItera
                 zx = zx * zx - zy * zy + cx;
                 zy = 2 * xt + cy;
                 i++;
-            } while(i<255 && (zx * zx + zy * zy) < 4)
+            } while(i<765 && (zx * zx + zy * zy) < 4)
 
             const color = pallete[i];
     
