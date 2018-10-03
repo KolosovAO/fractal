@@ -9,6 +9,7 @@ export abstract class BaseFractal<T = any> {
         this.setConfig(config);
     
         this.ctx = ctx;
+        this.ctxDefaults();
         this.ctxGlobals();
 
         this.draw = this.draw.bind(this);
@@ -81,5 +82,13 @@ export abstract class BaseFractal<T = any> {
         if (this.running) {
             requestAnimationFrame(this.draw);
         }
+    }
+    private ctxDefaults() {
+        this.ctx.lineWidth = 1;
+        this.ctx.strokeStyle = "#000";
+        this.ctx.fillStyle = "#FFF";
+        this.ctx.globalAlpha = 1;
+
+        this.ctx.font = "24px Roboto";
     }
 }

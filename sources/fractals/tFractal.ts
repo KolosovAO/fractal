@@ -31,6 +31,7 @@ export class TFractal extends BaseFractal<DrawObject> implements Fractal {
 
     protected ctxGlobals() {
         this.ctx.strokeStyle = "rgba(0,0,0,0.2)";
+        this.ctx.lineWidth = 8;
     }
     protected onDrawCircleStart() {
         this.ctx.beginPath();
