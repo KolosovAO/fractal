@@ -1,6 +1,7 @@
 export enum FractalType {
     mendelbrot = "mendelbrot",
     randomLine = "random",
+    line = "line",
     t = "t",
     prime = "prime",
     x = "x"
