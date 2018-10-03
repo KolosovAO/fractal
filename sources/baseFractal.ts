@@ -68,6 +68,7 @@ export abstract class BaseFractal<T = any> {
         while (count && this.running) {
             const object = this.sequence.next().value;
             if (!object) { // [TODO] fix it
+                this.onDrawCircleEnd();
                 this.stop();
                 return;
             }
