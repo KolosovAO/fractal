@@ -17,8 +17,8 @@ interface DrawObject {
 export class RandomLineFractal extends BaseFractal<DrawObject> implements Fractal {
     public config: Config;
 
-    protected setConfig(config) {
-        this.config = {
+    protected getConfig(config) {
+        return {
             ...config,
             drawCount: 400,
             edges: 3,

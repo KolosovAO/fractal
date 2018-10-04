@@ -1,16 +1,24 @@
+import { FractalEventSystem, FractalEvent } from "./types";
+
 export abstract class BaseFractal<T = any> {
     public config: any;
+    public events: FractalEventSystem;
     public ctx: CanvasRenderingContext2D;
 
     private running: boolean;
     private sequence: IterableIterator<T>;
 
-    constructor(ctx, config = {}) {
-        this.setConfig(config);
+    constructor(ctx, config) {
+        this.events = config.events;
+        delete config.events;
+
+        this.config = this.getConfig(config);
     
         this.ctx = ctx;
         this.ctxDefaults();
         this.ctxGlobals();
+
+        this.attachEvents();
 
         this.draw = this.draw.bind(this);
 
@@ -28,7 +36,8 @@ export abstract class BaseFractal<T = any> {
         this.running = false;
     }
     refresh() {
-        this.destroy();
+        this.stop();
+        this.ctx.clearRect(0, 0, this.config.width, this.config.height);
         this.sequence = this.getSequence();
         this.start();
     }
@@ -36,17 +45,21 @@ export abstract class BaseFractal<T = any> {
         this.stop();
         this.sequence = null;
         this.ctx.clearRect(0, 0, this.config.width, this.config.height);
+        this.destroyEvents();
     }
-    onCanvasClick(e: MouseEvent) {
-        return;
+    updateConfig(config) {
+        this.config = {...this.config, ...config};
+        this.refresh();
     }
-
-    protected setConfig(config) {
-        this.config = {...config,
+    protected getConfig(config): object {
+        return {...config,
             width: innerWidth,
             height: innerHeight,
             drawCount: 100
         };
+    }
+    protected getEvents() {
+        return {};
     }
 
     protected ctxGlobals() {
@@ -56,20 +69,20 @@ export abstract class BaseFractal<T = any> {
     protected abstract getSequence(): IterableIterator<T>;
     protected abstract drawObject(obj): void;
 
-    protected onDrawCircleEnd(): void {
+    protected onDrawEnd(): void {
         return;
     }
-    protected onDrawCircleStart(): void {
+    protected onDrawStart(): void {
         return;
     }
     private draw() {
-        this.onDrawCircleStart();
+        this.onDrawStart();
 
         let count = this.config.drawCount;
         while (count && this.running) {
             const object = this.sequence.next().value;
             if (!object) { // [TODO] fix it
-                this.onDrawCircleEnd();
+                this.onDrawEnd();
                 this.stop();
                 return;
             }
@@ -77,7 +90,7 @@ export abstract class BaseFractal<T = any> {
             count--;
         }
         
-        this.onDrawCircleEnd();
+        this.onDrawEnd();
 
         if (this.running) {
             requestAnimationFrame(this.draw);
@@ -90,5 +103,19 @@ export abstract class BaseFractal<T = any> {
         this.ctx.globalAlpha = 1;
 
         this.ctx.font = "24px Roboto";
+    }
+    private attachEvents() {
+        const events = this.getEvents();
+
+        for (const name in events) {
+            this.events.on(name as FractalEvent, events[name], this);
+        }
+    }
+    private destroyEvents() {
+        const events = Object.keys(this.getEvents());
+
+        events.forEach(event => {
+            this.events.detach(event as FractalEvent, this);
+        });
     }
 }

@@ -1,3 +1,5 @@
+import { EventSystem } from "./events";
+
 export enum FractalType {
     dragon = "dragon",
     levi = "levi",
@@ -13,9 +15,28 @@ export enum FractalType {
 export interface Fractal {
     ctx: CanvasRenderingContext2D;
     config: {[key: string]: any};
+    events: FractalEventSystem;
     start(): void;
     stop(): void;
     refresh(): void;
     destroy(): void;
-    onCanvasClick(e): void;
+    updateConfig(config: any): void;
 }
+
+export enum FractalEvent {
+    click = "click",
+
+    showPopup = "showPopup",
+
+    requestConfig = "requestConfig",
+    updateConfig = "updateConfig",
+
+    hidePopup = "hidePopup",
+
+    showConfig = "showConfig",
+    refresh = "refresh",
+    resume = "resume",
+    next = "next"
+}
+
+export interface FractalEventSystem extends EventSystem<FractalEvent> {}

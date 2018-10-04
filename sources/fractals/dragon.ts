@@ -26,14 +26,14 @@ function* sequence(width, height, iterations) {
         ]
     ]
 
-    let iteration = 0;
+    let iteration = -1;
 
     while (++iteration < iterations) {
         const newPairs = [];
         
         yield {
             clear: true,
-            iteration
+            iteration: iteration + 1
         }
 
         for (let i=0; i<pairs.length; i++) {

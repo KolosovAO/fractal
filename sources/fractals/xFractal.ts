@@ -17,8 +17,8 @@ interface DrawObject {
 export class XFractal extends BaseFractal<DrawObject> implements Fractal {
     public config: Config;
 
-    protected setConfig(config) {
-        this.config = {
+    protected getConfig(config) {
+        return {
             ...config,
             drawCount: 40,
             width: innerWidth,
@@ -33,10 +33,10 @@ export class XFractal extends BaseFractal<DrawObject> implements Fractal {
     protected ctxGlobals() {
         this.ctx.lineWidth = 0.2;
     }
-    protected onDrawCircleStart() {
+    protected onDrawStart() {
         this.ctx.beginPath();
     }
-    protected onDrawCircleEnd() {
+    protected onDrawEnd() {
         this.ctx.stroke();
     }
 

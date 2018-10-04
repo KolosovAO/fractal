@@ -18,8 +18,8 @@ interface DrawObject {
 export class PrimeFractal extends BaseFractal<DrawObject> implements Fractal {
     public config: Config;
 
-    protected setConfig(config) {
-        this.config = {
+    protected getConfig(config) {
+        return {
             ...config,
             drawCount: 20,
             step: 2,
@@ -31,10 +31,10 @@ export class PrimeFractal extends BaseFractal<DrawObject> implements Fractal {
     protected getSequence() {
         return sequence(this.config.width, this.config.height, this.config.step);
     }
-    protected onDrawCircleStart() {
+    protected onDrawStart() {
         this.ctx.beginPath();
     }
-    protected onDrawCircleEnd() {
+    protected onDrawEnd() {
         this.ctx.stroke();
     }
 

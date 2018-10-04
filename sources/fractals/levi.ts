@@ -23,8 +23,8 @@ interface DrawObject {
 export class LeviFractal extends BaseFractal<DrawObject> implements Fractal {
     public config: Config;
 
-    protected setConfig(config) {
-        this.config = {
+    protected getConfig(config) {
+        return {
             ...config,
             drawCount: 50,
             width: innerWidth,
@@ -34,17 +34,17 @@ export class LeviFractal extends BaseFractal<DrawObject> implements Fractal {
     }
 
     protected ctxGlobals() {
-        this.ctx.font = "24px Roboto";
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)"
     }
 
     protected getSequence() {
         return sequence(this.config.width, this.config.height, this.config.iterations);
     }
 
-    protected onDrawCircleStart() {
+    protected onDrawStart() {
         this.ctx.beginPath();
     }
-    protected onDrawCircleEnd() {
+    protected onDrawEnd() {
         this.ctx.stroke();
     }
 
@@ -80,14 +80,14 @@ function* sequence(width, height, iterations): IterableIterator<DrawObject> {
         ]
     ]
 
-    let iteration = 0;
+    let iteration = -1;
 
     while (++iteration < iterations) {
         const newPairs = [];
         
         yield {
             clear: true,
-            iteration
+            iteration: iteration + 1
         }
 
         for (let i=0; i<pairs.length; i++) {

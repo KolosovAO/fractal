@@ -14,7 +14,7 @@
                 background: #dedede;
                 color: rgba(0, 0, 0, 0.7);
                 left: 45%;
-                top: 45%;
+                top: 35%;
                 width: 10%;
                 border-radius: 30px;
                 overflow: hidden;
@@ -33,6 +33,42 @@
             }
             .control div:last-child {
                 border-bottom: none;
+            }
+
+            .configurator {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 400px;
+                background: #cecece;
+                z-index: 1000;
+            }
+            .property-wrapper {
+                display: flex;
+                padding: 4px 8px 4px 8px;
+            }
+            .property-name {
+                width: 200px;
+                font-family: Roboto;
+                font-size: 16px;
+            }
+            .property-wrapper input {
+                font-family: Roboto;
+                font-size: 16px;
+                background: inherit;
+                padding: 0 0 0 8px;
+            }
+            .buttons-block {
+                height: 40px;
+                display: flex;
+                justify-content: space-between;
+            }
+            .buttons-block button {
+                cursor: pointer;
+                font-family: Roboto;
+                font-size: 16px;
+                margin: 8px 8px 8px 8px;
+                border: none;
             }
         </style>
     </head>

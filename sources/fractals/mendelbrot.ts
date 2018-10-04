@@ -1,4 +1,4 @@
-import { Fractal } from "../types";
+import { Fractal, FractalEvent } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
@@ -20,8 +20,8 @@ export class MendelbrotFractal extends BaseFractal<DrawObject> implements Fracta
 
     private scale: number = 1;
 
-    protected setConfig(config) {
-        this.config = {
+    protected getConfig(config) {
+        return {
             ...config,
             drawCount: 20000,
             width: innerWidth,
@@ -31,22 +31,26 @@ export class MendelbrotFractal extends BaseFractal<DrawObject> implements Fracta
         }
     }
 
-    onCanvasClick(e) {
-        const scaleFactor = e.which === 1 ? 10 : 0.1;
-        const {x, y} = e;
-        this.scale /= scaleFactor;
-        const xLen = this.config.xCoords[1] - this.config.xCoords[0];
-        const yLen = this.config.yCoords[1] - this.config.yCoords[0];
-
-        const rX = xLen * x / this.config.width + this.config.xCoords[0];
-        const rY = yLen * y / this.config.height + this.config.yCoords[0];
-
-        this.config.xCoords = [rX - this.scale, rX + this.scale];
-        this.config.yCoords = [rY - this.scale, rY + this.scale];
-    }
-
     protected getSequence() {
         return sequence(this.config.width, this.config.height, this.config.xCoords, this.config.yCoords);
+    }
+
+    protected getEvents() {
+        return {
+            [FractalEvent.click]: e => {        
+                const scaleFactor = e.which === 1 ? 10 : 0.1;
+                const {x, y} = e;
+                this.scale /= scaleFactor;
+                const xLen = this.config.xCoords[1] - this.config.xCoords[0];
+                const yLen = this.config.yCoords[1] - this.config.yCoords[0];
+        
+                const rX = xLen * x / this.config.width + this.config.xCoords[0];
+                const rY = yLen * y / this.config.height + this.config.yCoords[0];
+        
+                this.config.xCoords = [rX - this.scale, rX + this.scale];
+                this.config.yCoords = [rY - this.scale, rY + this.scale];
+            }
+        }
     }
 
     protected drawObject({x, y, color}) {
@@ -58,28 +62,24 @@ export class MendelbrotFractal extends BaseFractal<DrawObject> implements Fracta
 }
 
 const toHex = v => v < 16 ? 0 + v.toString(16) : v.toString(16);
-const pallete = Array.from({length: 768}, (_, i) => {
+const pallete = Array.from({length: 256}, (_, i) => {
     let r, g, b;
 
     switch(true) {
-        case i < 256:
-            r = i;
-            g = (i / 2) | 0;
-            b = (i / 3) | 0;
+        case i < 85:
+            r = i * 3;
+            g = i * 2;
+            b = i;
             break;
-        case i < 512:
-            i = i % 256;
-
-            r = (i / 2) | 0;
-            g = i;
-            b = (i / 3) | 0;
+        case i < 171:
+            r = i - 84;
+            g = (i - 84) * 3;
+            b = (i - 84) * 2;
             break;
         default:
-            i = i % 256;
-
-            r = (i / 3) | 0;
-            g = (i / 2) | 0;
-            b = i;
+            r = (i - 170) * 2;
+            g = i - 170;
+            b = (i - 170) * 3;
     }
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 });
@@ -107,7 +107,7 @@ function* sequence(width, height, [xStart, xEnd], [yStart, yEnd]): IterableItera
                 zx = zx * zx - zy * zy + cx;
                 zy = 2 * xt + cy;
                 i++;
-            } while(i<765 && (zx * zx + zy * zy) < 4)
+            } while(i<255 && (zx * zx + zy * zy) < 4)
 
             const color = pallete[i];
     

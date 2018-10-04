@@ -16,8 +16,8 @@ interface DrawObject {
 export class TFractal extends BaseFractal<DrawObject> implements Fractal {
     public config: Config;
 
-    protected setConfig(config) {
-        this.config = {
+    protected getConfig(config) {
+        return {
             ...config,
             drawCount: 400,
             width: innerWidth,
@@ -33,10 +33,10 @@ export class TFractal extends BaseFractal<DrawObject> implements Fractal {
         this.ctx.strokeStyle = "rgba(0,0,0,0.2)";
         this.ctx.lineWidth = 8;
     }
-    protected onDrawCircleStart() {
+    protected onDrawStart() {
         this.ctx.beginPath();
     }
-    protected onDrawCircleEnd() {
+    protected onDrawEnd() {
         this.ctx.stroke();
     }
 

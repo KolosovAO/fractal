@@ -1,12 +1,17 @@
 import { Popup } from "./popup";
-import { FractalType, Fractal } from "./types";
+import { FractalType, Fractal, FractalEventSystem, FractalEvent } from "./types";
 import { factory } from "./fractalFactory";
+import { EventSystem } from "./events";
+import { Configurator } from "./configurator";
 
 export class Application {
     public canvas: HTMLCanvasElement;
     public ctx: CanvasRenderingContext2D;
 
+    public events: FractalEventSystem;
+
     public popup: Popup;
+    public configurator: Configurator;
 
     public fractal: Fractal;
 
@@ -20,6 +25,8 @@ export class Application {
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
 
+        this.events = new EventSystem<FractalEvent>();
+
         const width = window.innerWidth;
         const height = window.innerHeight;
     
@@ -28,7 +35,8 @@ export class Application {
         this.width = canvas.width = width;
         this.height = canvas.height = height;
 
-        this.popup = new Popup(document.body);
+        this.popup = new Popup(document.body, this.events);
+        this.configurator = new Configurator(document.body, this.events);
 
         this.index = 0;
         this.fractalTypes = Object.keys(FractalType) as FractalType[];
@@ -47,16 +55,24 @@ export class Application {
 
         this.fractal = factory(FractalType[type], this.ctx, {
             width: this.width,
-            height: this.height
+            height: this.height,
+            events: this.events
         });
 
         this.index++;
     }
 
     private initHandlers() {
-        this.popup.onRefresh = () => this.fractal.refresh();
-        this.popup.onResume = () => this.fractal.start();
-        this.popup.onNext = () => this.nextFractal();
+        this.events.on(FractalEvent.refresh, () => this.fractal.refresh());
+        this.events.on(FractalEvent.resume, () => this.fractal.start());
+        this.events.on(FractalEvent.next, () => this.nextFractal());
+        this.events.on(FractalEvent.requestConfig, () => {
+            this.events.fire(FractalEvent.showConfig, [this.fractal.config]);
+        });
+
+        this.events.on(FractalEvent.updateConfig, config => {
+            this.fractal.updateConfig(config);
+        });
 
         this.canvas.addEventListener("click", e => this.showMenu(e));
         this.canvas.addEventListener("contextmenu", e => {
@@ -66,9 +82,12 @@ export class Application {
     }
 
     private showMenu(e) {
+        if (this.configurator.isOpened()) {
+            return;
+        }
         this.fractal.stop();
-        this.fractal.onCanvasClick(e);
-        this.popup.show();
+        this.events.fire(FractalEvent.showPopup);
+        this.events.fire(FractalEvent.click, [e]);
     }
 
 
