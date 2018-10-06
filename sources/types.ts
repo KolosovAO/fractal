@@ -1,6 +1,7 @@
 import { EventSystem } from "./events";
 
 export enum FractalType {
+    circle = "circle",
     dragon = "dragon",
     levi = "levi",
     mendelbrot = "mendelbrot",
