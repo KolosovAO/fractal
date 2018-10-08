@@ -7,7 +7,8 @@ import { MendelbrotFractal } from "./fractals/mendelbrot";
 import { LineFractal } from "./fractals/line";
 import { LeviFractal } from "./fractals/levi";
 import { DragonFractal } from "./fractals/dragon";
-import { KohFractal } from "./fractals/koh";
+import { KochFractal } from "./fractals/koch";
+import { CircleFractal } from "./fractals/circle";
 
 export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config: any) {
     switch(type) {
@@ -27,7 +28,9 @@ export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config
             return new LeviFractal(ctx, config);
         case FractalType.dragon:
             return new DragonFractal(ctx, config);
-        case FractalType.koh:
-            return new KohFractal(ctx, config);
+        case FractalType.koch:
+            return new KochFractal(ctx, config);
+        case FractalType.circle:
+            return new CircleFractal(ctx, config);
     }
 }
