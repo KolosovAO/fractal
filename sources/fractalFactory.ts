@@ -9,6 +9,8 @@ import { LeviFractal } from "./fractals/levi";
 import { DragonFractal } from "./fractals/dragon";
 import { KochFractal } from "./fractals/koch";
 import { CircleFractal } from "./fractals/circle";
+import { MidPointFractal } from "./fractals/midPoints";
+import { PlaneFractal } from "./fractals/plane";
 
 export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config: any) {
     switch(type) {
@@ -32,5 +34,9 @@ export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config
             return new KochFractal(ctx, config);
         case FractalType.circle:
             return new CircleFractal(ctx, config);
+        case FractalType.midPoint:
+            return new MidPointFractal(ctx, config);
+        case FractalType.plane:
+            return new PlaneFractal(ctx, config);
     }
 }

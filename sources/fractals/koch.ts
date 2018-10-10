@@ -5,6 +5,7 @@ interface Config {
     drawCount?: number;
     width?: number;
     height?: number;
+    iterations?: number;
 }
 
 interface DrawObject {
@@ -13,6 +14,7 @@ interface DrawObject {
     x2?: number;
     y2?: number;
     clear?: boolean;
+    iteration?: number;
 }
 
 export class KochFractal extends BaseFractal<DrawObject> implements Fractal {
@@ -23,12 +25,15 @@ export class KochFractal extends BaseFractal<DrawObject> implements Fractal {
             ...config,
             drawCount: 1,
             width: innerWidth,
-            height: innerHeight
+            height: innerHeight,
+            iterations: 12
         }
     }
-
+    protected ctxGlobals() {
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)"
+    }
     protected getSequence() {
-        return sequence(this.config.width, this.config.height);
+        return sequence(this.config.width, this.config.height, this.config.iterations);
     }
     protected onDrawStart() {
         this.ctx.beginPath();
@@ -37,10 +42,11 @@ export class KochFractal extends BaseFractal<DrawObject> implements Fractal {
         this.ctx.stroke();
     }
 
-    protected drawObject({x1, y1, x2, y2, clear}) {
+    protected drawObject({x1, y1, x2, y2, clear, iteration}) {
         if (clear) {
             this.ctx.stroke();
             this.ctx.clearRect(0, 0, this.config.width, this.config.height);
+            this.ctx.fillText(iteration + " iteration", 20, 30);
             this.ctx.beginPath();
         } else {
             this.ctx.moveTo(x1, y1);
@@ -50,21 +56,36 @@ export class KochFractal extends BaseFractal<DrawObject> implements Fractal {
 }
 
 
-function* sequence(width, height): IterableIterator<DrawObject> {
+function* sequence(width, height, iterations): IterableIterator<DrawObject> {
     const alpha = -Math.PI / 3;
 
     let lines = [
         {
-            x1: width / 6,
-            y1: height * 3 / 4,
-            x2: width * 5 / 6,
-            y2: height * 3 / 4
+            x1: width / 3,
+            y1: height * 0.675,
+            x2: width / 2,
+            y2: height * 0.675 - width * Math.sqrt(3) / 6,
         },
+        {
+            x1: width / 2,
+            y1: height * 0.675 - width * Math.sqrt(3) / 6,
+            x2: width * 2 / 3,
+            y2: height * 0.675
+        },
+        {
+            x1: width * 2 / 3,
+            y1: height * 0.675,
+            x2: width / 3,
+            y2: height * 0.675
+        }
     ];
 
-    while(true) {
+    let iteration = -1;
+
+    while(++iteration < iterations) {
         yield {
-            clear: true
+            clear: true,
+            iteration
         }
 
         const newLines = [];
