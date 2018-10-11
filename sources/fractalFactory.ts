@@ -13,6 +13,7 @@ import { MidPointFractal } from "./fractals/midPoints";
 import { PlaneFractal } from "./fractals/plane";
 import { SpiralFractal } from "./fractals/spiral";
 import { RandomPointFractal } from "./fractals/random";
+import { Universe } from "./fractals/universe";
 
 export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config: any) {
     switch(type) {
@@ -44,5 +45,7 @@ export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config
             return new SpiralFractal(ctx, config);
         case FractalType.randomPoint:
             return new RandomPointFractal(ctx, config);
+        case FractalType.universe:
+            return new Universe(ctx, config);
     }
 }
