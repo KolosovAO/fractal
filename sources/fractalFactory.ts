@@ -11,6 +11,8 @@ import { KochFractal } from "./fractals/koch";
 import { CircleFractal } from "./fractals/circle";
 import { MidPointFractal } from "./fractals/midPoints";
 import { PlaneFractal } from "./fractals/plane";
+import { SpiralFractal } from "./fractals/spiral";
+import { RandomPointFractal } from "./fractals/random";
 
 export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config: any) {
     switch(type) {
@@ -38,5 +40,9 @@ export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config
             return new MidPointFractal(ctx, config);
         case FractalType.plane:
             return new PlaneFractal(ctx, config);
+        case FractalType.spiral:
+            return new SpiralFractal(ctx, config);
+        case FractalType.randomPoint:
+            return new RandomPointFractal(ctx, config);
     }
 }

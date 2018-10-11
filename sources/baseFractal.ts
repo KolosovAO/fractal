@@ -67,7 +67,7 @@ export abstract class BaseFractal<T = any> {
     }
 
     protected abstract getSequence(): IterableIterator<T>;
-    protected abstract drawObject(obj): void;
+    protected abstract drawObject(obj: T): void;
 
     protected onDrawEnd(): void {
         return;

@@ -2,8 +2,10 @@ import { EventSystem } from "./events";
 
 export enum FractalType {
     plane = "plane",
-    midPoint = "midPoint",
     koch = "koh",
+    spiral = "spiral",
+    midPoint = "midPoint",
+    randomPoint = "randomPoint",
     circle = "circle",
     dragon = "dragon",
     levi = "levi",
