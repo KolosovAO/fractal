@@ -3,7 +3,7 @@ import { PrimeFractal } from "./fractals/prime";
 import { TFractal } from "./fractals/tFractal";
 import { RandomLineFractal } from "./fractals/randomLine";
 import { XFractal } from "./fractals/xFractal";
-import { MendelbrotFractal } from "./fractals/mendelbrot";
+import { MandelbrotFractal } from "./fractals/mandelbrot";
 import { LineFractal } from "./fractals/line";
 import { LeviFractal } from "./fractals/levi";
 import { DragonFractal } from "./fractals/dragon";
@@ -26,8 +26,8 @@ export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config
             return new TFractal(ctx, config);
         case FractalType.x:
             return new XFractal(ctx, config);
-        case FractalType.mendelbrot:
-            return new MendelbrotFractal(ctx, config);
+        case FractalType.mandelbrot:
+            return new MandelbrotFractal(ctx, config);
         case FractalType.line:
             return new LineFractal(ctx, config);
         case FractalType.levi:

@@ -74,6 +74,15 @@ export class Application {
         this.events.on(FractalEvent.requestConfig, () => {
             this.events.fire(FractalEvent.showConfig, [this.fractal.config]);
         });
+        this.events.on(FractalEvent.download, () => {
+            const img = this.canvas.toDataURL("impage/png");
+            const a = document.createElement("a");
+            a.href = img;
+            a.download = "fractal_" + this.fractalTypes[this.index - 1] + ".png";
+            window.location.href = img;
+            a.click();
+            this.fractal.start();
+        });
 
         this.events.on(FractalEvent.updateConfig, config => {
             this.fractal.updateConfig(config);

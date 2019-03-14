@@ -18,6 +18,7 @@ export class Popup {
         control.innerHTML = `
             <div id="show-config">show config</div>
             <div id="resume">resume</div>
+            <div id="download">download</div>
             <div id="refresh">refresh</div>
             <div id="next">next fractal</div>
         `.trim();
@@ -40,6 +41,10 @@ export class Popup {
                     break;
                 case "show-config":
                     this.events.fire(FractalEvent.requestConfig);
+                    this.hide();
+                    break;
+                case "download":
+                    this.events.fire(FractalEvent.download);
                     this.hide();
                     break;
             }

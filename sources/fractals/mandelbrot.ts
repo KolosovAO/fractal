@@ -7,6 +7,7 @@ interface Config {
     height?: number;
     xCoords?: [number, number];
     yCoords?: [number, number];
+    iterations?: number;
 }
 
 interface DrawObject {
@@ -15,7 +16,7 @@ interface DrawObject {
     color: string;
 }
 
-export class MendelbrotFractal extends BaseFractal<DrawObject> implements Fractal {
+export class MandelbrotFractal extends BaseFractal<DrawObject> implements Fractal {
     public config: Config;
 
     private scale: number = 1;
@@ -27,12 +28,13 @@ export class MendelbrotFractal extends BaseFractal<DrawObject> implements Fracta
             width: innerWidth,
             height: innerHeight,
             xCoords: [-1.7, 0.5],
-            yCoords: [-1.2, 1.2]
+            yCoords: [-1.2, 1.2],
+            iterations: 255
         }
     }
 
     protected getSequence() {
-        return sequence(this.config.width, this.config.height, this.config.xCoords, this.config.yCoords);
+        return sequence(this.config.width, this.config.height, this.config.iterations, this.config.xCoords, this.config.yCoords);
     }
 
     protected getEvents() {
@@ -61,32 +63,12 @@ export class MendelbrotFractal extends BaseFractal<DrawObject> implements Fracta
     }
 }
 
-const toHex = v => v < 16 ? 0 + v.toString(16) : v.toString(16);
-const pallete = Array.from({length: 256}, (_, i) => {
-    let r, g, b;
+const getPallete = (iterations: number) => Array.from({length: iterations}, (_, i) => `hsl(220,50%,${(iterations - i) / iterations * 100}%)`);
 
-    switch(true) {
-        case i < 85:
-            r = i * 3;
-            g = i * 2;
-            b = i;
-            break;
-        case i < 171:
-            r = i - 84;
-            g = (i - 84) * 3;
-            b = (i - 84) * 2;
-            break;
-        default:
-            r = (i - 170) * 2;
-            g = i - 170;
-            b = (i - 170) * 3;
-    }
-    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-});
-
-function* sequence(width, height, [xStart, xEnd], [yStart, yEnd]): IterableIterator<DrawObject> {
+function* sequence(width, height, iterations, [xStart, xEnd], [yStart, yEnd]): IterableIterator<DrawObject> {
     const xStep = (xEnd - xStart) / width;
     const yStep = (yEnd - yStart) / height;
+    const pallete = getPallete(iterations);
 
     // pixels
     let x = -1;
@@ -107,7 +89,7 @@ function* sequence(width, height, [xStart, xEnd], [yStart, yEnd]): IterableItera
                 zx = zx * zx - zy * zy + cx;
                 zy = 2 * xt + cy;
                 i++;
-            } while(i<255 && (zx * zx + zy * zy) < 4)
+            } while(i<iterations && (zx * zx + zy * zy) < 4)
 
             const color = pallete[i];
     
