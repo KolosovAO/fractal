@@ -39,6 +39,7 @@ export abstract class BaseFractal<T = any> {
         this.stop();
         this.ctx.clearRect(0, 0, this.config.width, this.config.height);
         this.sequence = this.getSequence();
+        this.onRefresh();
         this.start();
     }
     destroy() {
@@ -73,6 +74,9 @@ export abstract class BaseFractal<T = any> {
         return;
     }
     protected onDrawStart(): void {
+        return;
+    }
+    protected onRefresh(): void {
         return;
     }
     private draw() {

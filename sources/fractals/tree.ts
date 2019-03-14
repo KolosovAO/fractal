@@ -45,6 +45,9 @@ export class TreeFractal extends BaseFractal<DrawObject> implements Fractal {
     protected onDrawEnd() {
         this.ctx.stroke();
     }
+    protected onRefresh() {
+        this.ctx.fillRect(0, 0, this.config.width, this.config.height);
+    }
 
     protected drawObject({x1, x2, y1, y2, lineWidth}) {
         this.ctx.lineWidth = lineWidth;

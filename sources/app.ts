@@ -14,6 +14,7 @@ export class Application {
     public configurator: Configurator;
 
     public fractal: Fractal;
+    public fractalTitle: HTMLElement;
 
     private fractalTypes: FractalType[];
     private index: number;
@@ -38,6 +39,10 @@ export class Application {
         this.popup = new Popup(document.body, this.events);
         this.configurator = new Configurator(document.body, this.events);
 
+        this.fractalTitle = document.createElement("div");
+        this.fractalTitle.className = "fractal-title";
+        document.body.appendChild(this.fractalTitle);
+
         this.index = 0;
         this.fractalTypes = Object.keys(FractalType) as FractalType[];
 
@@ -58,7 +63,7 @@ export class Application {
             height: this.height,
             events: this.events
         });
-
+        this.fractalTitle.textContent = type;
         this.index++;
     }
 
@@ -89,6 +94,4 @@ export class Application {
         this.events.fire(FractalEvent.showPopup);
         this.events.fire(FractalEvent.click, [e]);
     }
-
-
 }
