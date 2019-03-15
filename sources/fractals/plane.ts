@@ -21,8 +21,6 @@ export class PlaneFractal extends BaseFractal<DrawObject> implements Fractal {
         return {
             ...config,
             drawCount: 250,
-            width: innerWidth,
-            height: innerHeight,
             roughness: 1.2
         }
     }

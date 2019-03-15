@@ -21,18 +21,19 @@ export class Universe extends BaseFractal<DrawObject> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,
-            drawCount: 100,
-            width: innerWidth,
-            height: innerHeight
+            drawCount: 100
         }
     }
     protected ctxGlobals() {
         this.ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
         this.ctx.fillRect(0, 0, this.config.width, this.config.height);
-        this.ctx.fill();
     }
     protected getSequence() {
         return sequence(this.config.width, this.config.height);
+    }
+    protected onRefresh() {
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+        this.ctx.fillRect(0, 0, this.config.width, this.config.height);
     }
 
     protected drawObject({x, y, radius, color}) {

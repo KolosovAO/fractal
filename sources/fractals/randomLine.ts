@@ -22,9 +22,7 @@ export class RandomLineFractal extends BaseFractal<DrawObject> implements Fracta
             ...config,
             drawCount: 400,
             edges: 3,
-            pointSize: 0.2,
-            width: innerWidth,
-            height: innerHeight
+            pointSize: 0.2
         }
     }
 

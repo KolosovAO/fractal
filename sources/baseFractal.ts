@@ -23,6 +23,7 @@ export abstract class BaseFractal<T = any> {
         this.draw = this.draw.bind(this);
 
         this.sequence = this.getSequence();
+        this.onInit();
         this.start();
     }
     start() {
@@ -70,6 +71,9 @@ export abstract class BaseFractal<T = any> {
     protected abstract getSequence(): IterableIterator<T>;
     protected abstract drawObject(obj: T): void;
 
+    protected onInit(): void {
+        return;
+    }
     protected onDrawEnd(): void {
         return;
     }

@@ -27,8 +27,6 @@ export class CircleFractal extends BaseFractal<DrawObject> implements Fractal {
         return {
             ...config,
             drawCount: 1,
-            width: innerWidth,
-            height: innerHeight,
             points: 360
         }
     }

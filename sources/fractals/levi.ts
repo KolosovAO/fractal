@@ -27,8 +27,6 @@ export class LeviFractal extends BaseFractal<DrawObject> implements Fractal {
         return {
             ...config,
             drawCount: 50,
-            width: innerWidth,
-            height: innerHeight,
             iterations: 20
         }
     }

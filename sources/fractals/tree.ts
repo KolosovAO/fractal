@@ -24,15 +24,13 @@ export class TreeFractal extends BaseFractal<DrawObject> implements Fractal {
         return {
             ...config,
             drawCount: 1,
-            width: innerWidth,
-            height: innerHeight,
             angle: 60
         }
     }
     protected ctxGlobals() {
         this.ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-        this.ctx.fillRect(0, 0, this.config.width, this.config.height);
         this.ctx.strokeStyle = "#fff";
+        this.ctx.fillRect(0, 0, this.config.width, this.config.height);
     }
 
     protected getSequence() {

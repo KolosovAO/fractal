@@ -24,8 +24,6 @@ export class KochFractal extends BaseFractal<DrawObject> implements Fractal {
         return {
             ...config,
             drawCount: 1,
-            width: innerWidth,
-            height: innerHeight,
             iterations: 12
         }
     }

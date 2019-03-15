@@ -20,8 +20,6 @@ export class MidPointFractal extends BaseFractal<DrawObject> implements Fractal 
         return {
             ...config,
             drawCount: 1,
-            width: innerWidth,
-            height: innerHeight,
             roughness: 0.8
         }
     }

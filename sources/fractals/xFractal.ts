@@ -20,9 +20,7 @@ export class XFractal extends BaseFractal<DrawObject> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,
-            drawCount: 40,
-            width: innerWidth,
-            height: innerHeight
+            drawCount: 40
         }
     }
     

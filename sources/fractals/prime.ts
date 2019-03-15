@@ -22,9 +22,7 @@ export class PrimeFractal extends BaseFractal<DrawObject> implements Fractal {
         return {
             ...config,
             drawCount: 20,
-            step: 2,
-            width: innerWidth,
-            height: innerHeight
+            step: 2
         }
     }
 

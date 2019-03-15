@@ -4,7 +4,6 @@ import { TFractal } from "./fractals/tFractal";
 import { RandomLineFractal } from "./fractals/randomLine";
 import { XFractal } from "./fractals/xFractal";
 import { MandelbrotFractal } from "./fractals/mandelbrot";
-import { LineFractal } from "./fractals/line";
 import { LeviFractal } from "./fractals/levi";
 import { DragonFractal } from "./fractals/dragon";
 import { KochFractal } from "./fractals/koch";
@@ -28,8 +27,6 @@ export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config
             return new XFractal(ctx, config);
         case FractalType.mandelbrot:
             return new MandelbrotFractal(ctx, config);
-        case FractalType.line:
-            return new LineFractal(ctx, config);
         case FractalType.levi:
             return new LeviFractal(ctx, config);
         case FractalType.dragon:

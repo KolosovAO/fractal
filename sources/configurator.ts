@@ -46,6 +46,9 @@ export class Configurator {
             input.id = key;
             input.value = config[key];
             inputs.push(input);
+            if (key === "width" || key === "height") {
+                input.readOnly = true;
+            }
 
             wrapper.appendChild(label);
             wrapper.appendChild(input);

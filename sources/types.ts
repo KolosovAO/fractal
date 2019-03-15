@@ -13,7 +13,6 @@ export enum FractalType {
     dragon = "dragon",
     levi = "levi",
     randomLine = "random",
-    line = "line",
     t = "t",
     prime = "prime",
     x = "x"
@@ -33,8 +32,11 @@ export interface Fractal {
 
 export enum FractalEvent {
     click = "click",
+    zoomIn = "zoomIn",
+    zoomOut = "zoomOut",
 
     showPopup = "showPopup",
+    showHelp = "showHelp",
 
     requestConfig = "requestConfig",
     updateConfig = "updateConfig",

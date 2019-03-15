@@ -20,8 +20,6 @@ export class RandomPointFractal extends BaseFractal<DrawObject> implements Fract
         return {
             ...config,
             drawCount: 400,
-            width: innerWidth,
-            height: innerHeight,
             radius: 5
         }
     }

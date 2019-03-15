@@ -7,6 +7,8 @@ interface Config {
     height?: number;
     xCoords?: [number, number];
     yCoords?: [number, number];
+    hue?: number;
+    saturation?: number;
     iterations?: number;
 }
 
@@ -25,33 +27,26 @@ export class MandelbrotFractal extends BaseFractal<DrawObject> implements Fracta
         return {
             ...config,
             drawCount: 20000,
-            width: innerWidth,
-            height: innerHeight,
             xCoords: [-1.7, 0.5],
             yCoords: [-1.2, 1.2],
-            iterations: 255
+            iterations: 255,
+            hue: 220,
+            saturation: 0.8
         }
     }
 
+    protected onInit() {
+        this.events.fire(FractalEvent.showHelp, ["Use mousewheel for zoom in and zoom out"])
+    }
+
     protected getSequence() {
-        return sequence(this.config.width, this.config.height, this.config.iterations, this.config.xCoords, this.config.yCoords);
+        return sequence(this.config.width, this.config.height, this.config.iterations, this.config.hue, this.config.saturation, this.config.xCoords, this.config.yCoords);
     }
 
     protected getEvents() {
         return {
-            [FractalEvent.click]: e => {        
-                const scaleFactor = e.which === 1 ? 10 : 0.1;
-                const {x, y} = e;
-                this.scale /= scaleFactor;
-                const xLen = this.config.xCoords[1] - this.config.xCoords[0];
-                const yLen = this.config.yCoords[1] - this.config.yCoords[0];
-        
-                const rX = xLen * x / this.config.width + this.config.xCoords[0];
-                const rY = yLen * y / this.config.height + this.config.yCoords[0];
-        
-                this.config.xCoords = [rX - this.scale, rX + this.scale];
-                this.config.yCoords = [rY - this.scale, rY + this.scale];
-            }
+            [FractalEvent.zoomIn]: (x: number, y: number) => this._scale(x, y, 5),
+            [FractalEvent.zoomOut]: (x: number, y: number) => this._scale(x, y, 0.2)
         }
     }
 
@@ -61,14 +56,34 @@ export class MandelbrotFractal extends BaseFractal<DrawObject> implements Fracta
         this.ctx.fillStyle = color;
         this.ctx.fill();
     }
+
+    private _scale(x: number, y: number, scaleFactor: number) {
+        this.scale /= scaleFactor;
+
+        const xLen = this.config.xCoords[1] - this.config.xCoords[0];
+        const yLen = this.config.yCoords[1] - this.config.yCoords[0];
+
+        const rX = xLen * x / this.config.width + this.config.xCoords[0];
+        const rY = yLen * y / this.config.height + this.config.yCoords[0];
+
+        this.config.xCoords = [rX - this.scale, rX + this.scale];
+        this.config.yCoords = [rY - this.scale, rY + this.scale];
+        if (scaleFactor > 1) {
+            this.config.iterations += 50;
+        } else {
+            this.config.iterations -= 50;
+        }
+
+        this.refresh();
+    }
 }
 
-const getPallete = (iterations: number) => Array.from({length: iterations}, (_, i) => `hsl(220,50%,${(iterations - i) / iterations * 100}%)`);
+const getPallete = (iterations: number, h: number, s: number) => Array.from({length: iterations}, (_, i) => `hsl(${h},${s*100}%,${(iterations - i) / iterations * 100}%)`);
 
-function* sequence(width, height, iterations, [xStart, xEnd], [yStart, yEnd]): IterableIterator<DrawObject> {
+function* sequence(width, height, iterations, hue, saturation, [xStart, xEnd], [yStart, yEnd]): IterableIterator<DrawObject> {
     const xStep = (xEnd - xStart) / width;
     const yStep = (yEnd - yStart) / height;
-    const pallete = getPallete(iterations);
+    const pallete = getPallete(iterations, hue, saturation);
 
     // pixels
     let x = -1;

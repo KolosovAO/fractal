@@ -23,9 +23,7 @@ export class SpiralFractal extends BaseFractal<DrawObject> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,
-            drawCount: 50,
-            width: innerWidth,
-            height: innerHeight
+            drawCount: 50
         }
     }
 

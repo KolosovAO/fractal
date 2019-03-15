@@ -15,6 +15,8 @@ export class Application {
 
     public fractal: Fractal;
     public fractalTitle: HTMLElement;
+    public fractalHelperMessage: HTMLElement;
+    public fractalHelperMessageTimeout: number;
 
     private fractalTypes: FractalType[];
     private index: number;
@@ -42,16 +44,21 @@ export class Application {
         this.fractalTitle = document.createElement("div");
         this.fractalTitle.className = "fractal-title";
         document.body.appendChild(this.fractalTitle);
+        this.fractalHelperMessage = document.createElement("div");
+        this.fractalHelperMessage.className = "fractal-helper-message";
 
         this.index = 0;
         this.fractalTypes = Object.keys(FractalType) as FractalType[];
+        this.initHandlers();
 
         this.nextFractal();
-
-        this.initHandlers();
     }
 
     nextFractal() {
+        if (this.fractalHelperMessageTimeout) {
+            clearTimeout(this.fractalHelperMessageTimeout);
+            this.fractalHelperMessageTimeout = null;
+        }
         const index = this.index % this.fractalTypes.length;
         if (this.fractal) {
             this.fractal.destroy();
@@ -78,7 +85,7 @@ export class Application {
             const img = this.canvas.toDataURL("impage/png");
             const a = document.createElement("a");
             a.href = img;
-            a.download = "fractal_" + this.fractalTypes[this.index - 1] + ".png";
+            a.download = "fractal_" + Date.now() % 2**8 + ".png";
             window.location.href = img;
             a.click();
             this.fractal.start();
@@ -88,8 +95,27 @@ export class Application {
             this.fractal.updateConfig(config);
         });
 
-        this.canvas.addEventListener("click", e => this.showMenu(e));
-        this.canvas.addEventListener("contextmenu", e => {
+        this.events.on(FractalEvent.showHelp, (msg: string, delay: number = 3000) => {
+            if (this.fractalHelperMessageTimeout) {
+                clearTimeout(this.fractalHelperMessageTimeout);
+            }
+            this.fractalHelperMessage.textContent = msg;
+            document.body.appendChild(this.fractalHelperMessage);
+            this.fractalHelperMessageTimeout = setTimeout(() => {
+                document.body.removeChild(this.fractalHelperMessage);
+                this.fractalHelperMessageTimeout = null;
+            }, delay);
+        });
+
+        this.canvas.addEventListener("click", (e: MouseEvent) => this.showMenu(e));
+        this.canvas.addEventListener("mousewheel", (e: MouseWheelEvent) => {
+            if (e.deltaY < 0) {
+                this.events.fire(FractalEvent.zoomIn, [e.pageX, e.pageY]);
+            } else {
+                this.events.fire(FractalEvent.zoomOut, [e.pageX, e.pageY]);
+            }
+        });
+        this.canvas.addEventListener("contextmenu", (e: MouseEvent) => {
             e.preventDefault();
             this.showMenu(e);
         });

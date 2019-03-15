@@ -19,9 +19,7 @@ export class TFractal extends BaseFractal<DrawObject> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,
-            drawCount: 400,
-            width: innerWidth,
-            height: innerHeight
+            drawCount: 400
         }
     }
 
