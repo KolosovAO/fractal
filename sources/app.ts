@@ -57,6 +57,7 @@ export class Application {
     nextFractal() {
         if (this.fractalHelperMessageTimeout) {
             clearTimeout(this.fractalHelperMessageTimeout);
+            document.body.removeChild(this.fractalHelperMessage);
             this.fractalHelperMessageTimeout = null;
         }
         const index = this.index % this.fractalTypes.length;
@@ -98,6 +99,7 @@ export class Application {
         this.events.on(FractalEvent.showHelp, (msg: string, delay: number = 3000) => {
             if (this.fractalHelperMessageTimeout) {
                 clearTimeout(this.fractalHelperMessageTimeout);
+                document.body.removeChild(this.fractalHelperMessage);
             }
             this.fractalHelperMessage.textContent = msg;
             document.body.appendChild(this.fractalHelperMessage);
