@@ -47,20 +47,23 @@ export class Application {
         this.fractalHelperMessage = document.createElement("div");
         this.fractalHelperMessage.className = "fractal-helper-message";
 
-        this.index = 0;
+        this.index = -1;
         this.fractalTypes = Object.keys(FractalType) as FractalType[];
         this.initHandlers();
 
         this.nextFractal();
     }
 
-    nextFractal() {
+    nextFractal(offset: number = 1) {
+        if (this.popup.isOpened()) {
+            this.popup.hide();
+        }
+        const index = this.index = (this.index + offset + this.fractalTypes.length) % this.fractalTypes.length;
         if (this.fractalHelperMessageTimeout) {
             clearTimeout(this.fractalHelperMessageTimeout);
             document.body.removeChild(this.fractalHelperMessage);
             this.fractalHelperMessageTimeout = null;
         }
-        const index = this.index % this.fractalTypes.length;
         if (this.fractal) {
             this.fractal.destroy();
         }
@@ -72,7 +75,6 @@ export class Application {
             events: this.events
         });
         this.fractalTitle.textContent = type;
-        this.index++;
     }
 
     private initHandlers() {
@@ -121,14 +123,31 @@ export class Application {
             e.preventDefault();
             this.showMenu(e);
         });
+        document.addEventListener("keydown", (e: KeyboardEvent) => {
+            switch(e.keyCode) {
+                case 27: // ESC
+                    if (this.popup.isOpened()) {
+                        this.popup.hide();
+                        this.fractal.start();
+                    }
+                    break;
+                case 37: // arrow left
+                    this.nextFractal(-1);
+                    break;
+                case 39: // arrow right
+                    this.nextFractal();
+                    break;
+            } 
+        });
     }
 
-    private showMenu(e) {
+    private showMenu(e: MouseEvent) {
         if (this.configurator.isOpened()) {
             return;
         }
+
         this.fractal.stop();
-        this.events.fire(FractalEvent.showPopup);
+        this.events.fire(FractalEvent.showPopup, [e.pageX, e.pageY]);
         this.events.fire(FractalEvent.click, [e]);
     }
 }

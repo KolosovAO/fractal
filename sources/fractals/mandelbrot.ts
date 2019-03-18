@@ -26,8 +26,8 @@ export class MandelbrotFractal extends BaseFractal<DrawObject> implements Fracta
     protected getConfig(config) {
         return {
             ...config,
-            drawCount: 20000,
-            xCoords: [-1.7, 0.5],
+            drawCount: 5000,
+            xCoords: [-1.8, 0.6],
             yCoords: [-1.2, 1.2],
             iterations: 255,
             hue: 220,
