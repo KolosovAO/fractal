@@ -45,31 +45,12 @@ function* sequence(width, height, roughness): IterableIterator<DrawObject> {
 
     const rand = v => -.5 * v + Math.random() * v;
     const av = (...args) => args.reduce((s, v) => s + v) / args.length;
-    const to255 = value => ~~(value / 333 * 255);
-    const color = value => {
-        value += 500;
-        let r = 0;
-        let g = 0;
-        let b = 0;
+    const color = value => `hsl(${Math.floor(value + 180)},50%,50%)`;
 
-        switch(true) {
-            case value < 333:
-                b = to255(value);
-                break;
-            case value < 666:
-                g = to255(value - 333);
-                break;
-            default:
-                r = to255(value - 667);
-                break;
-        }
-        return `rgb(${r},${g},${b})`;
-    }
-
-    m[0][0] = rand(1000);
-    m[0][h-1] = rand(1000);
-    m[h-1][0] = rand(1000);
-    m[h-1][h-1] = rand(1000);
+    m[0][0] = rand(360);
+    m[0][h-1] = rand(360);
+    m[h-1][0] = rand(360);
+    m[h-1][h-1] = rand(360);
 
     yield {
         x: deltaX,
@@ -97,7 +78,7 @@ function* sequence(width, height, roughness): IterableIterator<DrawObject> {
     function* square(m) {
         for (let i=dist; i<h; i+=2*dist) {
             for (let j=dist; j<h; j+=2*dist) {
-                m[i][j] = av(m[i-dist][j-dist], m[i-dist][j+dist], m[i+dist][j-dist], m[i+dist][j+dist]) + rand(1000) / h * dist * roughness;
+                m[i][j] = av(m[i-dist][j-dist], m[i-dist][j+dist], m[i+dist][j-dist], m[i+dist][j+dist]) + rand(360) / h * dist * roughness;
                 yield {
                     x: i + deltaX,
                     y: j + deltaY,
@@ -125,7 +106,7 @@ function* sequence(width, height, roughness): IterableIterator<DrawObject> {
                 if (m[i][j+dist]) {
                     points.push(m[i][j+dist]);
                 }
-                m[i][j] = av(...points) + rand(1000) / h * dist * roughness;
+                m[i][j] = av(...points) + rand(360) / h * dist * roughness;
                 yield {
                     x: i + deltaX,
                     y: j + deltaY,

@@ -8,6 +8,9 @@ export class Popup {
     private control: HTMLElement;
     private opened: boolean;
 
+    private _lastX: number;
+    private _lastY: number;
+
     constructor(container: HTMLElement, events: FractalEventSystem) {
         this.container = container;
         this.events = events;
@@ -61,6 +64,14 @@ export class Popup {
             this.container.appendChild(this.control);
             this.opened = true;
         }
+        if (this._lastX) {
+            const diff = ((this._lastX - x)**2 + (this._lastY - y)**2)**.5;
+            if (diff < 100) {
+                return;
+            }
+        }
+        this._lastX = x;
+        this._lastY = y;
         const rect = this.control.getBoundingClientRect();
         x = Math.min(greaterThanZero(x - rect.width / 2), window.innerWidth - rect.width);
         y = Math.min(greaterThanZero(y - rect.height / 2), window.innerHeight - rect.height);
