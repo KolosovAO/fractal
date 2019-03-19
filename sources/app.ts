@@ -124,6 +124,9 @@ export class Application {
             this.showMenu(e);
         });
         document.addEventListener("keydown", (e: KeyboardEvent) => {
+            if (this.configurator.isOpened()) {
+                return;
+            }
             switch(e.keyCode) {
                 case 27: // ESC
                     if (this.popup.isOpened()) {

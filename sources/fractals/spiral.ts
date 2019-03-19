@@ -26,7 +26,9 @@ export class SpiralFractal extends BaseFractal<DrawObject> implements Fractal {
             drawCount: 50
         }
     }
-
+    protected getMode(): "default" | "night" {
+        return "night";
+    }
     protected getSequence() {
         return sequence(this.config.width, this.config.height);
     }

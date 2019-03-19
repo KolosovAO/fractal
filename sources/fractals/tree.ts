@@ -27,10 +27,9 @@ export class TreeFractal extends BaseFractal<DrawObject> implements Fractal {
             angle: 60
         }
     }
-    protected ctxGlobals() {
-        this.ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-        this.ctx.strokeStyle = "#fff";
-        this.ctx.fillRect(0, 0, this.config.width, this.config.height);
+
+    protected getMode(): "default" | "night" {
+        return "night";
     }
 
     protected getSequence() {
@@ -42,9 +41,6 @@ export class TreeFractal extends BaseFractal<DrawObject> implements Fractal {
     }
     protected onDrawEnd() {
         this.ctx.stroke();
-    }
-    protected onRefresh() {
-        this.ctx.fillRect(0, 0, this.config.width, this.config.height);
     }
 
     protected drawObject({x1, x2, y1, y2, lineWidth}) {

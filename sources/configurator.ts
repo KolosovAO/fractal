@@ -90,7 +90,7 @@ export class Configurator {
     private getConfig() {
         const config = {};
         for (const input of this.inputs) {
-            config[input.id] = +input.value;
+            config[input.id] = +input.value || input.value;
         }
 
         return config;

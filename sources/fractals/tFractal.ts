@@ -5,6 +5,7 @@ interface Config {
     drawCount?: number;
     width?: number;
     height?: number;
+    pattern?: string;
 }
 
 interface DrawObject {
@@ -19,17 +20,18 @@ export class TFractal extends BaseFractal<DrawObject> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,
-            drawCount: 400
+            drawCount: 2000,
+            pattern: "0110,1001,1001,0110"
         }
     }
 
     protected getSequence() {
-        return sequence(this.config.width, this.config.height);
+        const size = this.config.pattern.split(",").length;
+        return sequence(this.config.width, this.config.height, size);
     }
 
     protected ctxGlobals() {
-        this.ctx.strokeStyle = "rgba(0,0,0,0.2)";
-        this.ctx.lineWidth = 8;
+        this.ctx.fillStyle = "rgba(0,0,0,0.3)";
     }
     protected onDrawStart() {
         this.ctx.beginPath();
@@ -39,22 +41,29 @@ export class TFractal extends BaseFractal<DrawObject> implements Fractal {
     }
 
     protected drawObject({x, y, size}) {
-        this.ctx.rect(x, y, size, size);
+        const pattern = this.config.pattern.split(",");
+        for (let i=0; i<pattern.length; i++) {
+            for (let j=0; j<pattern[i].length; j++) {
+                if (pattern[i][j] === "1") {
+                    this.ctx.fillRect(x + size * i, y + size * j, size, size);
+                }
+            }
+        }
     }
 }
 
-function* sequence(width, height): IterableIterator<DrawObject> {
-    let size = 4;
-    while(true) {
+function* sequence(width, height, size): IterableIterator<DrawObject> {
+    const baseSize = size;
+    while(size < height) {
         for (let x=0; x<width; x+=size) {
             for (let y=0; y<height; y+=size) {
                 yield {
                     x, 
                     y,
-                    size
+                    size: size / baseSize
                 };
             }
         }
-        size += 4;
+        size *= 2;
     }
 }

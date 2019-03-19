@@ -45,7 +45,7 @@ export class CircleFractal extends BaseFractal<DrawObject> implements Fractal {
     protected drawObject({a1, a2, clear}) {
         if (clear) {
             this.ctx.stroke();
-            this.ctx.clearRect(0, 0, this.config.width, this.config.height);
+            this.clear();
             this.ctx.beginPath();
         } else {
             this.ctx.moveTo(a1.x, a1.y);

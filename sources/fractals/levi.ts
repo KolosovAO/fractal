@@ -31,10 +31,6 @@ export class LeviFractal extends BaseFractal<DrawObject> implements Fractal {
         }
     }
 
-    protected ctxGlobals() {
-        this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)"
-    }
-
     protected getSequence() {
         return sequence(this.config.width, this.config.height, this.config.iterations);
     }
@@ -49,7 +45,7 @@ export class LeviFractal extends BaseFractal<DrawObject> implements Fractal {
     protected drawObject({a1, a2, clear, iteration}) {
         if (clear) {
             this.ctx.stroke();
-            this.ctx.clearRect(0, 0, this.config.width, this.config.height);
+            this.clear();
             this.ctx.fillText(iteration + " iteration", 20, 30);
             this.ctx.beginPath();
         } else {

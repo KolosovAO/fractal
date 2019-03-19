@@ -30,6 +30,7 @@ export abstract class BaseFractal<T = any> {
         if (this.running || !this.sequence) {
             return;
         }
+        this.clear();
         this.running = true;
         requestAnimationFrame(this.draw);
     }
@@ -38,7 +39,6 @@ export abstract class BaseFractal<T = any> {
     }
     refresh() {
         this.stop();
-        this.ctx.clearRect(0, 0, this.config.width, this.config.height);
         this.sequence = this.getSequence();
         this.onRefresh();
         this.start();
@@ -53,8 +53,20 @@ export abstract class BaseFractal<T = any> {
         this.config = {...this.config, ...config};
         this.refresh();
     }
-    protected getConfig(config): object {
-        return {...config,
+    clear() {
+        if (this.getMode() === "night") {
+            this.ctx.fillStyle = "#000";
+            this.ctx.fillRect(0, 0, this.config.width, this.config.height);
+        } else {
+            this.ctx.clearRect(0, 0, this.config.width, this.config.height);
+        }
+    }
+    protected getMode(): "default" | "night" {
+        return "default";
+    }
+    protected getConfig(config: any): object {
+        return {
+            ...config,
             width: innerWidth,
             height: innerHeight,
             drawCount: 100
@@ -106,8 +118,14 @@ export abstract class BaseFractal<T = any> {
     }
     private ctxDefaults() {
         this.ctx.lineWidth = 1;
-        this.ctx.strokeStyle = "#000";
-        this.ctx.fillStyle = "#FFF";
+        if (this.getMode() === "night") {
+            this.ctx.strokeStyle = "#FFF";
+            this.ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+        } else {
+            this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8)";
+            this.ctx.fillStyle = "#FFF";
+        }
+
         this.ctx.globalAlpha = 1;
 
         this.ctx.font = "24px Roboto";

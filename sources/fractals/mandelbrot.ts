@@ -28,7 +28,7 @@ export class MandelbrotFractal extends BaseFractal<DrawObject> implements Fracta
             ...config,
             drawCount: 5000,
             xCoords: [-1.8, 0.6],
-            yCoords: [-1.2, 1.2],
+            yCoords: [-1.1, 1.1],
             iterations: 255,
             hue: 220,
             saturation: 0.8

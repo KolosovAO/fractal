@@ -43,7 +43,7 @@ export class KochFractal extends BaseFractal<DrawObject> implements Fractal {
     protected drawObject({x1, y1, x2, y2, clear, iteration}) {
         if (clear) {
             this.ctx.stroke();
-            this.ctx.clearRect(0, 0, this.config.width, this.config.height);
+            this.clear();
             this.ctx.fillText(iteration + " iteration", 20, 30);
             this.ctx.beginPath();
         } else {
