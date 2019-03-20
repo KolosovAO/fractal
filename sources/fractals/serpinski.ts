@@ -14,7 +14,7 @@ interface DrawObject {
     y: number;
 }
 
-export class RandomLineFractal extends BaseFractal<DrawObject> implements Fractal {
+export class SerpinskiFractal extends BaseFractal<DrawObject> implements Fractal {
     public config: Config;
 
     protected getConfig(config) {

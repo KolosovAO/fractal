@@ -1,7 +1,7 @@
 import { FractalType } from "./types";
 import { PrimeFractal } from "./fractals/prime";
 import { TFractal } from "./fractals/tFractal";
-import { RandomLineFractal } from "./fractals/randomLine";
+import { SerpinskiFractal } from "./fractals/serpinski";
 import { XFractal } from "./fractals/xFractal";
 import { MandelbrotFractal } from "./fractals/mandelbrot";
 import { LeviFractal } from "./fractals/levi";
@@ -14,13 +14,14 @@ import { SpiralFractal } from "./fractals/spiral";
 import { RandomPointFractal } from "./fractals/random";
 import { Universe } from "./fractals/universe";
 import { TreeFractal } from "./fractals/tree";
+import { PythagorasTree } from "./fractals/pythagorasTree";
 
 export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config: any) {
     switch(type) {
         case FractalType.prime:
             return new PrimeFractal(ctx, config);
-        case FractalType.randomLine:
-            return new RandomLineFractal(ctx, config);
+        case FractalType.serpinski:
+            return new SerpinskiFractal(ctx, config);
         case FractalType.t:
             return new TFractal(ctx, config);
         case FractalType.x:
@@ -47,5 +48,7 @@ export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config
             return new Universe(ctx, config);
         case FractalType.tree:
             return new TreeFractal(ctx, config);
+        case FractalType.pythagorasTree:
+            return new PythagorasTree(ctx, config);
     }
 }
