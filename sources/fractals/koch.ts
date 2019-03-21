@@ -2,10 +2,7 @@ import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
-    iterations?: number;
+    iterations: number;
 }
 
 interface DrawObject {
@@ -17,9 +14,7 @@ interface DrawObject {
     iteration?: number;
 }
 
-export class KochFractal extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class KochFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,

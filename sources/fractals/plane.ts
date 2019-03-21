@@ -2,10 +2,7 @@ import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
-    roughness?: number;
+    roughness: number;
 }
 
 interface DrawObject {
@@ -14,9 +11,7 @@ interface DrawObject {
     color?: string;
 }
 
-export class PlaneFractal extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class PlaneFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,

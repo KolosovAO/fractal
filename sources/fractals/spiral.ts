@@ -1,11 +1,7 @@
 import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
-interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
-}
+interface Config {}
 
 interface Point {
     x: number;
@@ -17,9 +13,7 @@ interface DrawObject {
     a2?: Point;
 }
 
-export class SpiralFractal extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class SpiralFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,
@@ -46,7 +40,7 @@ export class SpiralFractal extends BaseFractal<DrawObject> implements Fractal {
     }
 }
 
-function* sequence(width, height): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number): IterableIterator<DrawObject> {
     const x = width / 2;
     const y = height / 2;
     let a1 = {

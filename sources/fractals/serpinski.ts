@@ -2,11 +2,8 @@ import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
-    pointSize?: number;
-    edges?: number;
+    pointSize: number;
+    edges: number;
 }
 
 interface DrawObject {
@@ -14,9 +11,7 @@ interface DrawObject {
     y: number;
 }
 
-export class SerpinskiFractal extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class SerpinskiFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,
@@ -40,11 +35,11 @@ export class SerpinskiFractal extends BaseFractal<DrawObject> implements Fractal
     }
 }
 
-function random(value) {
+function random(value: number): number {
     return Math.floor(Math.random() * value);
 }
 
-function* sequence(width, height, count): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number, count: number): IterableIterator<DrawObject> {
     const points = [];
     for (let i=0; i<count; i++) {
         const point = {

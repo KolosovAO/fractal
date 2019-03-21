@@ -2,10 +2,7 @@ import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
-    angle?: number;
+    angle: number;
 }
 
 interface DrawObject {
@@ -17,9 +14,7 @@ interface DrawObject {
     angle?: number;
 }
 
-export class TreeFractal extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class TreeFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,
@@ -50,7 +45,7 @@ export class TreeFractal extends BaseFractal<DrawObject> implements Fractal {
     }
 }
 
-function* sequence(width, height, angle): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number, angle: number): IterableIterator<DrawObject> {
     let dist = height * 0.6;
     let lineWidth = 15;
 

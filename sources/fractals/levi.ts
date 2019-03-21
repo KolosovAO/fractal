@@ -2,10 +2,7 @@ import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
-    iterations?: number;
+    iterations: number;
 }
 
 interface Point {
@@ -20,9 +17,7 @@ interface DrawObject {
     a2?: Point;
 }
 
-export class LeviFractal extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class LeviFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,

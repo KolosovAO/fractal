@@ -1,11 +1,7 @@
 import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
-interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
-}
+interface Config {}
 
 interface DrawObject {
     x: number;
@@ -15,9 +11,7 @@ interface DrawObject {
     ring: number;
 }
 
-export class Universe extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class Universe extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,
@@ -40,11 +34,11 @@ export class Universe extends BaseFractal<DrawObject> implements Fractal {
 }
 
 
-function rand(min, max) {
+function rand(min: number, max: number): number {
     return min + Math.round(Math.random() * (max - min));
 }
 
-function* sequence(width, height): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number): IterableIterator<DrawObject> {
     const main = {
         x: width / 2,
         y: height / 2,

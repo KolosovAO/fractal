@@ -2,10 +2,7 @@ import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
-    step?: number;
+    step: number;
 }
 
 interface DrawObject {
@@ -15,9 +12,7 @@ interface DrawObject {
     y2: number;
 }
 
-export class PrimeFractal extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class PrimeFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,
@@ -42,7 +37,7 @@ export class PrimeFractal extends BaseFractal<DrawObject> implements Fractal {
     }
 }
 
-function* sequence(width, height, value): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number, value: number): IterableIterator<DrawObject> {
     let x1 = 0;
     let y1 = 0;
     let dirX = value;
@@ -63,8 +58,8 @@ function* sequence(width, height, value): IterableIterator<DrawObject> {
             dirY = value;
         }
 
-        let x2 = x1 + dirX;
-        let y2 = y1 + dirY;
+        const x2 = x1 + dirX;
+        const y2 = y1 + dirY;
 
         if (stroke) {
             yield {

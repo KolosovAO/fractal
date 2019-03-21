@@ -6,7 +6,7 @@ export class DragonFractal extends LeviFractal {
     }
 }
 
-function* sequence(width, height, iterations) {
+function* sequence(width: number, height: number, iterations: number) {
     const radian45 = 45 * Math.PI / 180;
 
     const cosA = Math.cos(radian45);

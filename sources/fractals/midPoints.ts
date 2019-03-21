@@ -2,20 +2,15 @@ import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
-    roughness?: number;
+    roughness: number;
 }
 
 interface DrawObject {
-    x?: number;
-    y?: number;
+    x: number;
+    y: number;
 }
 
-export class MidPointFractal extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class MidPointFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,

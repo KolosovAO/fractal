@@ -2,10 +2,7 @@ import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
-    radius?: number;
+    radius: number;
 }
 
 interface DrawObject {
@@ -13,9 +10,7 @@ interface DrawObject {
     y: number;
 }
 
-export class RandomPointFractal extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class RandomPointFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,
@@ -39,7 +34,7 @@ export class RandomPointFractal extends BaseFractal<DrawObject> implements Fract
 }
 
 
-function* sequence(width, height, radius): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number, radius: number): IterableIterator<DrawObject> {
     let x = width / 2;
     let y = height / 2;
 

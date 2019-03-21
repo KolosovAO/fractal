@@ -1,14 +1,20 @@
 import { FractalEventSystem, FractalEvent } from "./types";
 
-export abstract class BaseFractal<T = any> {
-    public config: any;
+interface DefaultConfig {
+    width: number;
+    height: number;
+    drawCount: number;
+}
+
+export abstract class BaseFractal<T, U extends {}> {
+    public config: U & DefaultConfig;
     public events: FractalEventSystem;
     public ctx: CanvasRenderingContext2D;
 
     private running: boolean;
     private sequence: IterableIterator<T>;
 
-    constructor(ctx, config) {
+    constructor(ctx: CanvasRenderingContext2D, config: DefaultConfig & {events: FractalEventSystem}) {
         this.events = config.events;
         delete config.events;
 
@@ -49,7 +55,7 @@ export abstract class BaseFractal<T = any> {
         this.ctx.clearRect(0, 0, this.config.width, this.config.height);
         this.destroyEvents();
     }
-    updateConfig(config) {
+    updateConfig(config: U) {
         this.config = {...this.config, ...config};
         this.refresh();
     }
@@ -64,7 +70,7 @@ export abstract class BaseFractal<T = any> {
     protected getMode(): "default" | "night" {
         return "default";
     }
-    protected getConfig(config: any): object {
+    protected getConfig(config: DefaultConfig): any {
         return {
             ...config,
             width: innerWidth,

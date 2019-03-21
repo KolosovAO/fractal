@@ -2,9 +2,6 @@ import { Fractal, FractalEvent } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
     xCoords?: [number, number];
     yCoords?: [number, number];
     hue?: number;
@@ -18,9 +15,7 @@ interface DrawObject {
     color: string;
 }
 
-export class MandelbrotFractal extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class MandelbrotFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     private scale: number = 1;
 
     protected getConfig(config) {

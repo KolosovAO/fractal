@@ -2,9 +2,8 @@ import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
+    size: number;
+    depth: number;
 }
 
 interface Point {
@@ -17,20 +16,20 @@ interface DrawObject {
     fill: string;
 }
 
-export class PythagorasTree extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class PythagorasTree extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getMode(): "night" | "default" {
         return "night";
     }
     protected getConfig(config) {
         return {
             ...config,
-            drawCount: 10
+            drawCount: 10,
+            size: config.width * .1,
+            depth: 13
         }
     }
     protected getSequence() {
-        return sequence(this.config.width, this.config.height);
+        return sequence(this.config.width, this.config.height, this.config.size, this.config.depth);
     }
 
     protected drawObject({points: [init, ...other], fill}) {
@@ -47,28 +46,29 @@ export class PythagorasTree extends BaseFractal<DrawObject> implements Fractal {
 }
 
 const Point = (x: number, y: number) => ({x, y});
-const depthToColor = (depth, total) => `hsl(${~~(depth / total * 360)},40%,60%)`;
+const depthToColor = (depth: number, total: number) => `hsl(${~~(depth / total * 360)},40%,60%)`;
 
-function* sequence(width: number, height: number): IterableIterator<DrawObject> {
-    const totalDepth = 13;
+function* sequence(width: number, height: number, size: number, totalDepth: number): IterableIterator<DrawObject> {
     let depth = 1;
 
+    const initX1 = (width - size) / 2;
+    const initX2 = initX1 + size;
     let points = [
-        [width * .45, height * .85, width * .55, height * .85]
+        [initX1, height * .85, initX2, height * .85]
     ];
 
     while (depth < totalDepth) {
         const newPoints = [];
         for (const [x1, y1, x2, y2] of points) {
-            let dx = x2 - x1;
-            let dy = y1 - y2;
+            const dx = x2 - x1;
+            const dy = y1 - y2;
         
-            let x3 = x2 - dy;
-            let y3 = y2 - dx;
-            let x4 = x1 - dy;
-            let y4 = y1 - dx;
-            let x5 = x4 + 0.5 * (dx - dy);
-            let y5 = y4 - 0.5 * (dx + dy);
+            const x3 = x2 - dy;
+            const y3 = y2 - dx;
+            const x4 = x1 - dy;
+            const y4 = y1 - dx;
+            const x5 = x4 + 0.5 * (dx - dy);
+            const y5 = y4 - 0.5 * (dx + dy);
 
             yield {
                 points: [Point(x1, y1), Point(x2, y2), Point(x3, y3), Point(x4, y4)],

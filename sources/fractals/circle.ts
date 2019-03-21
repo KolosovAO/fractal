@@ -2,10 +2,8 @@ import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
-    drawCount?: number;
-    width?: number;
-    height?: number;
-    points?: number;
+    points: number;
+    iterations: number;
 }
 
 interface Point {
@@ -16,23 +14,22 @@ interface Point {
 interface DrawObject {
     iteration?: number;
     clear?: boolean;
-    a1?: Point;
-    a2?: Point;
+    p1?: Point;
+    p2?: Point;
 }
 
-export class CircleFractal extends BaseFractal<DrawObject> implements Fractal {
-    public config: Config;
-
+export class CircleFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getConfig(config) {
         return {
             ...config,
             drawCount: 1,
-            points: 360
+            points: 360,
+            iterations: 20
         }
     }
 
     protected getSequence() {
-        return sequence(this.config.width, this.config.height, this.config.points);
+        return sequence(this.config.width, this.config.height, this.config.points, this.config.iterations);
     }
 
     protected onDrawStart() {
@@ -42,26 +39,26 @@ export class CircleFractal extends BaseFractal<DrawObject> implements Fractal {
         this.ctx.stroke();
     }
 
-    protected drawObject({a1, a2, clear}) {
+    protected drawObject({p1, p2, clear}) {
         if (clear) {
             this.ctx.stroke();
             this.clear();
             this.ctx.beginPath();
         } else {
-            this.ctx.moveTo(a1.x, a1.y);
-            this.ctx.lineTo(a2.x, a2.y);
+            this.ctx.moveTo(p1.x, p1.y);
+            this.ctx.lineTo(p2.x, p2.y);
         }
     }
 }
 
-function* sequence(width, height, points): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number, points: number, iterations: number): IterableIterator<DrawObject> {
     const center = {
         x: width / 2,
         y: height / 2
     }
     const radius = height / 2 - 40;
 
-    const getDot = index => {
+    const getDot = (index: number) => {
         const percent = (index % points) / points;
         return {
             x: center.x + Math.cos(2 * Math.PI * percent) * radius,
@@ -71,16 +68,16 @@ function* sequence(width, height, points): IterableIterator<DrawObject> {
 
     let coef = 2;
 
-    while(true) {
-        for (let i=1; i<points; i++) {
-            yield {
-                a1: getDot(i),
-                a2: getDot(i * coef)
-            }
-        }
-        coef++;
+    while(iterations--) {
         yield {
             clear: true
         }
+        for (let i=1; i<points; i++) {
+            yield {
+                p1: getDot(i),
+                p2: getDot(i * coef)
+            }
+        }
+        coef++;
     }
 }
