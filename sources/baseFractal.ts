@@ -27,10 +27,7 @@ export abstract class BaseFractal<T, U extends {}> {
         this.attachEvents();
 
         this.draw = this.draw.bind(this);
-
-        this.sequence = this.getSequence();
-        this.onInit();
-        this.start();
+        this.init();
     }
     start() {
         if (this.running || !this.sequence) {
@@ -43,9 +40,9 @@ export abstract class BaseFractal<T, U extends {}> {
     stop() {
         this.running = false;
     }
-    refresh() {
+    async refresh() {
+        this.sequence = await this.getSequence();
         this.stop();
-        this.sequence = this.getSequence();
         this.onRefresh();
         this.start();
     }
@@ -86,7 +83,7 @@ export abstract class BaseFractal<T, U extends {}> {
         return;
     }
 
-    protected abstract getSequence(): IterableIterator<T>;
+    protected abstract async getSequence(): Promise<IterableIterator<T>>;
     protected abstract drawObject(obj: T): void;
 
     protected onInit(): void {
@@ -121,6 +118,11 @@ export abstract class BaseFractal<T, U extends {}> {
         if (this.running) {
             requestAnimationFrame(this.draw);
         }
+    }
+    private async init() {
+        this.sequence = await this.getSequence();
+        this.onInit();
+        this.start();
     }
     private ctxDefaults() {
         this.ctx.lineWidth = 1;

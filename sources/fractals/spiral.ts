@@ -23,7 +23,7 @@ export class SpiralFractal extends BaseFractal<DrawObject, Config> implements Fr
     protected getMode(): "default" | "night" {
         return "night";
     }
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height);
     }
 

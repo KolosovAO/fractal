@@ -19,7 +19,7 @@ export class PlaneFractal extends BaseFractal<DrawObject, Config> implements Fra
             roughness: 1.2
         }
     }
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.roughness);
     }
 

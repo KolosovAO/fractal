@@ -20,7 +20,7 @@ export class TFractal extends BaseFractal<DrawObject, Config> implements Fractal
         }
     }
 
-    protected getSequence() {
+    protected async getSequence() {
         const size = this.config.pattern.split(",").length;
         return sequence(this.config.width, this.config.height, size);
     }

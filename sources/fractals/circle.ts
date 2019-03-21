@@ -28,7 +28,7 @@ export class CircleFractal extends BaseFractal<DrawObject, Config> implements Fr
         }
     }
 
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.points, this.config.iterations);
     }
 

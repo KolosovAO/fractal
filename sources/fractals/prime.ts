@@ -21,7 +21,7 @@ export class PrimeFractal extends BaseFractal<DrawObject, Config> implements Fra
         }
     }
 
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.step);
     }
     protected onDrawStart() {

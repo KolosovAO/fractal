@@ -25,7 +25,7 @@ export class KochFractal extends BaseFractal<DrawObject, Config> implements Frac
     protected ctxGlobals() {
         this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)"
     }
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.iterations);
     }
     protected onDrawStart() {

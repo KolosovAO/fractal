@@ -1,7 +1,7 @@
 import { LeviFractal } from "./levi";
 
 export class DragonFractal extends LeviFractal {
-    getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.iterations);
     }
 }

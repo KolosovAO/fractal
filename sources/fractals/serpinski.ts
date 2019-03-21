@@ -21,7 +21,7 @@ export class SerpinskiFractal extends BaseFractal<DrawObject, Config> implements
         }
     }
 
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.edges);
     }
 

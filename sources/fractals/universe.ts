@@ -21,7 +21,7 @@ export class Universe extends BaseFractal<DrawObject, Config> implements Fractal
     protected getMode(): "night" | "default" {
         return "night";
     }
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height);
     }
 

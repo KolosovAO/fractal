@@ -23,7 +23,7 @@ export class MidPointFractal extends BaseFractal<DrawObject, Config> implements 
         this.ctx.fillStyle = "#000";
     }
 
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.roughness);
     }
 

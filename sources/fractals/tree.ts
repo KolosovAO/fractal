@@ -27,7 +27,7 @@ export class TreeFractal extends BaseFractal<DrawObject, Config> implements Frac
         return "night";
     }
 
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.angle);
     }
 

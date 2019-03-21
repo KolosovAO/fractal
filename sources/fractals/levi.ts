@@ -26,7 +26,7 @@ export class LeviFractal extends BaseFractal<DrawObject, Config> implements Frac
         }
     }
 
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.iterations);
     }
 

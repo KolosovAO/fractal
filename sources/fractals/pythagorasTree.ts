@@ -28,7 +28,7 @@ export class PythagorasTree extends BaseFractal<DrawObject, Config> implements F
             depth: 13
         }
     }
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.size, this.config.depth);
     }
 

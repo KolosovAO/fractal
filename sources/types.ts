@@ -1,10 +1,10 @@
 import { EventSystem } from "./events";
 
 export enum FractalType {
-    mandelbrot = "mandelbrot",
     tree = "tree",
     pythagorasTree = "pythagorasTree",
     plane = "plane",
+    mandelbrot = "mandelbrot",
     koch = "koh",
     circle = "circle",
     t = "t",
@@ -16,7 +16,7 @@ export enum FractalType {
     randomPoint = "randomPoint",
     serpinski = "serpinski",
     prime = "prime",
-    x = "x"
+    x = "x",
 }
 
 
@@ -48,7 +48,10 @@ export enum FractalEvent {
     refresh = "refresh",
     resume = "resume",
     next = "next",
-    download = "download"
+    download = "download",
+
+    requestMandelbrot = "requestMandelbrot",
+    responseMandelbrot = "responseMandelbrot"
 }
 
 export interface FractalEventSystem extends EventSystem<FractalEvent> {}

@@ -18,6 +18,8 @@ export class Application {
     public fractalHelperMessage: HTMLElement;
     public fractalHelperMessageTimeout: number;
 
+    public worker: Worker;
+
     private fractalTypes: FractalType[];
     private index: number;
 
@@ -47,9 +49,12 @@ export class Application {
         this.fractalHelperMessage = document.createElement("div");
         this.fractalHelperMessage.className = "fractal-helper-message";
 
+        this.worker = new Worker("./mandelbrot.worker.js");
+
         this.index = -1;
         this.fractalTypes = Object.keys(FractalType) as FractalType[];
         this.initHandlers();
+
 
         this.nextFractal();
     }
@@ -142,6 +147,16 @@ export class Application {
                     break;
             } 
         });
+
+        this.events.on(FractalEvent.requestMandelbrot, (data) => {
+            this.worker.postMessage({
+                type: "render",
+                wasmPath: "./mandelbrot_bg.wasm",
+                ...data
+            });
+        });
+
+        this.worker.addEventListener("message", e => this.events.fire(FractalEvent.responseMandelbrot, [e]));
     }
 
     private showMenu(e: MouseEvent) {

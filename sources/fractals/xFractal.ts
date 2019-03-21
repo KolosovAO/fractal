@@ -18,7 +18,7 @@ export class XFractal extends BaseFractal<DrawObject, Config> implements Fractal
         }
     }
     
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height);
     }
 

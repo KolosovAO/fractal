@@ -22,7 +22,7 @@ export class RandomPointFractal extends BaseFractal<DrawObject, Config> implemen
         this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)"
     }
 
-    protected getSequence() {
+    protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.radius);
     }
 
