@@ -37,25 +37,25 @@ function* sequence(width: number, height: number, iterations: number) {
         }
 
         for (let i=0; i<pairs.length; i++) {
-            const [a1, a2, k] = pairs[i];
+            const [p1, p2, k] = pairs[i];
 
             yield {
-                a1,
-                a2
+                p1,
+                p2
             }
 
-            const {x: x1, y: y1} = a1;
-            const {x: x2, y: y2} = a2;
+            const {x: x1, y: y1} = p1;
+            const {x: x2, y: y2} = p2;
 
             const xDif = x2 - x1;
             const yDif = y2 - y1;
 
-            const a3 = {
+            const p3 = {
                 x: cosA * (xDif * cosA - yDif * sinA*k) + x1,
                 y: cosA * (xDif * sinA*k + yDif * cosA) + y1
             };
 
-            newPairs.push([a1,a3,1], [a3,a2,-1]);
+            newPairs.push([p1,p3,1], [p3,p2,-1]);
         }
         
         pairs = newPairs;

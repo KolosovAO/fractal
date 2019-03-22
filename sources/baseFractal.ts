@@ -27,13 +27,13 @@ export abstract class BaseFractal<T, U extends {}> {
         this.attachEvents();
 
         this.draw = this.draw.bind(this);
+        this.clear();
         this.init();
     }
     start() {
         if (this.running || !this.sequence) {
             return;
         }
-        this.clear();
         this.running = true;
         requestAnimationFrame(this.draw);
     }
@@ -43,6 +43,7 @@ export abstract class BaseFractal<T, U extends {}> {
     async refresh() {
         this.sequence = await this.getSequence();
         this.stop();
+        this.clear();
         this.onRefresh();
         this.start();
     }

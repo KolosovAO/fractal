@@ -13,8 +13,8 @@ interface Point {
 interface DrawObject {
     iteration?: number;
     clear?: boolean;
-    a1?: Point;
-    a2?: Point;
+    p1?: Point;
+    p2?: Point;
 }
 
 export class LeviFractal extends BaseFractal<DrawObject, Config> implements Fractal {
@@ -24,6 +24,9 @@ export class LeviFractal extends BaseFractal<DrawObject, Config> implements Frac
             drawCount: 50,
             iterations: 20
         }
+    }
+    protected ctxGlobals() {
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)"
     }
 
     protected async getSequence() {
@@ -37,20 +40,20 @@ export class LeviFractal extends BaseFractal<DrawObject, Config> implements Frac
         this.ctx.stroke();
     }
 
-    protected drawObject({a1, a2, clear, iteration}) {
+    protected drawObject({p1, p2, clear, iteration}) {
         if (clear) {
             this.ctx.stroke();
             this.clear();
             this.ctx.fillText(iteration + " iteration", 20, 30);
             this.ctx.beginPath();
         } else {
-            this.ctx.moveTo(a1.x, a1.y);
-            this.ctx.lineTo(a2.x, a2.y);
+            this.ctx.moveTo(p1.x, p1.y);
+            this.ctx.lineTo(p2.x, p2.y);
         }
     }
 }
 
-function* sequence(width, height, iterations): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number, iterations: number): IterableIterator<DrawObject> {
     const radianAngle = 45 * Math.PI / 180;
 
     const cosA = Math.cos(radianAngle);
@@ -80,15 +83,15 @@ function* sequence(width, height, iterations): IterableIterator<DrawObject> {
         }
 
         for (let i=0; i<pairs.length; i++) {
-            const [a1, a2] = pairs[i];
+            const [p1, p2] = pairs[i];
 
             yield {
-                a1,
-                a2
+                p1,
+                p2
             }
 
-            const {x: x1, y: y1} = a1;
-            const {x: x2, y: y2} = a2;
+            const {x: x1, y: y1} = p1;
+            const {x: x2, y: y2} = p2;
 
             const xDif = x2 - x1;
             const yDif = y2 - y1;
@@ -98,7 +101,7 @@ function* sequence(width, height, iterations): IterableIterator<DrawObject> {
                 y: cosA * (xDif * sinA + yDif * cosA) + y1
             };
 
-            newPairs.push([a1,a3], [a3,a2]);
+            newPairs.push([p1,a3], [a3,p2]);
         }
         
         pairs = newPairs;

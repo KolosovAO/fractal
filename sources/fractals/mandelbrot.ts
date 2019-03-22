@@ -22,9 +22,9 @@ export class MandelbrotFractal extends BaseFractal<DrawObject, Config> implement
         return {
             ...config,
             drawCount: 5000,
-            xCoords: [-1.8, 0.6],
-            yCoords: [-1.1, 1.1],
-            iterations: 255,
+            xCoords: [-1.9, 0.7],
+            yCoords: [-1.2, 1.2],
+            iterations: 100,
             hue: 220,
             saturation: 0.8
         }
@@ -34,8 +34,7 @@ export class MandelbrotFractal extends BaseFractal<DrawObject, Config> implement
         this.events.fire(FractalEvent.showHelp, ["Use mousewheel for zoom in and zoom out"])
     }
     protected async getSequence() {
-        const dots: Int32Array = await this.getMandelbrotRender();
-        return sequence(this.config.height, this.config.iterations, this.config.hue, this.config.saturation, dots);
+        return sequence(this.config.width, this.config.height, this.config.iterations, this.config.hue, this.config.saturation, this.config.xCoords, this.config.yCoords);
     }
 
     protected getEvents() {
@@ -71,49 +70,11 @@ export class MandelbrotFractal extends BaseFractal<DrawObject, Config> implement
 
         this.refresh();
     }
-    private async getMandelbrotRender() {
-        const id = Date.now();
-        this.events.fire(FractalEvent.requestMandelbrot, [{
-            id,
-            width: this.config.width, 
-            height: this.config.height,
-            x_start: this.config.xCoords[0],
-            x_end: this.config.xCoords[1],
-            y_start: this.config.yCoords[0],
-            y_end: this.config.yCoords[1],
-            max_iterations: this.config.iterations
-        }]);
-
-        return new Promise<Int32Array>(res => {
-            this.events.on(FractalEvent.responseMandelbrot, (event: any) => {
-                if (event.data.id === id) {
-                    res(event.data.result);
-                }
-            }, Date.now(), true);
-        })
-    }
 }
 
 const getPallete = (iterations: number, h: number, s: number) => Array.from({length: iterations}, (_, i) => `hsl(${h},${s*100}%,${(iterations - i) / iterations * 100}%)`);
 
-function* sequence(height: number, iterations: number, hue: number, saturation: number, dots: Int32Array): IterableIterator<DrawObject> {
-    const pallete = getPallete(iterations, hue, saturation);
-
-    for (let i=0; i<dots.length; i++) {
-        const x = ~~(i / height);
-        const y = i % height;
-        const color = pallete[dots[i]];
-    
-        yield {
-            x,
-            y,
-            color
-        }
-    }
-}
-
-/* OLD RENDERER
-function* sequence(width, height, iterations, hue, saturation, [xStart, xEnd], [yStart, yEnd]): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number, iterations: number, hue: number, saturation: number, [xStart, xEnd], [yStart, yEnd]): IterableIterator<DrawObject> {
     const xStep = (xEnd - xStart) / width;
     const yStep = (yEnd - yStart) / height;
     const pallete = getPallete(iterations, hue, saturation);
@@ -138,7 +99,7 @@ function* sequence(width, height, iterations, hue, saturation, [xStart, xEnd], [
                 zy = 2 * xt + cy;
                 i++;
             } while(i<iterations && (zx * zx + zy * zy) < 4)
-
+            
             const color = pallete[i];
     
             yield {
@@ -150,5 +111,3 @@ function* sequence(width, height, iterations, hue, saturation, [xStart, xEnd], [
         }
     }
 }
-
-*/
