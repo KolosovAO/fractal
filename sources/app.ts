@@ -1,5 +1,5 @@
 import { Popup } from "./popup";
-import { FractalType, Fractal, FractalEventSystem, FractalEvent } from "./types";
+import { FractalType, Fractal, FractalEventSystem, FractalEvent, KeyCode } from "./types";
 import { factory } from "./fractalFactory";
 import { EventSystem } from "./events";
 import { Configurator } from "./configurator";
@@ -83,7 +83,7 @@ export class Application {
         this.events.on(FractalEvent.resume, () => this.fractal.start());
         this.events.on(FractalEvent.next, () => this.nextFractal());
         this.events.on(FractalEvent.requestConfig, () => {
-            this.events.fire(FractalEvent.showConfig, [this.fractal.config]);
+            this.events.fire(FractalEvent.showConfig, [this.fractal.config, this.fractal.getConfigHints()]);
         });
         this.events.on(FractalEvent.download, () => {
             const img = this.canvas.toDataURL("impage/png");
@@ -129,16 +129,16 @@ export class Application {
                 return;
             }
             switch(e.keyCode) {
-                case 27: // ESC
+                case KeyCode.ESC:
                     if (this.popup.isOpened()) {
                         this.popup.hide();
                         this.fractal.start();
                     }
                     break;
-                case 37: // arrow left
+                case KeyCode.ARROW_LEFT:
                     this.nextFractal(-1);
                     break;
-                case 39: // arrow right
+                case KeyCode.ARROW_RIGHT:
                     this.nextFractal();
                     break;
             } 

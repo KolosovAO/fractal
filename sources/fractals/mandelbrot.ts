@@ -4,29 +4,26 @@ import { BaseFractal } from "../baseFractal";
 interface Config {
     xCoords?: [number, number];
     yCoords?: [number, number];
-    hue?: number;
-    saturation?: number;
     iterations?: number;
 }
 
 interface DrawObject {
     x: number;
     y: number;
-    color: string;
+    w: number;
+    colorArray: Uint8ClampedArray;
 }
 
 export class MandelbrotFractal extends BaseFractal<DrawObject, Config> implements Fractal {
-    private scale: number = 1;
+    private scaleFactor: number = 1;
 
     protected getConfig(config) {
         return {
             ...config,
-            drawCount: 5000,
+            drawCount: 4,
             xCoords: [-1.9, 0.7],
             yCoords: [-1.2, 1.2],
             iterations: 100,
-            hue: 220,
-            saturation: 0.8
         }
     }
 
@@ -34,25 +31,23 @@ export class MandelbrotFractal extends BaseFractal<DrawObject, Config> implement
         this.events.fire(FractalEvent.showHelp, ["Use mousewheel for zoom in and zoom out"])
     }
     protected async getSequence() {
-        return sequence(this.config.width, this.config.height, this.config.iterations, this.config.hue, this.config.saturation, this.config.xCoords, this.config.yCoords);
+        return sequence(this.config.width, this.config.height, this.config);
     }
 
     protected getEvents() {
         return {
-            [FractalEvent.zoomIn]: (x: number, y: number) => this._scale(x, y, 5),
-            [FractalEvent.zoomOut]: (x: number, y: number) => this._scale(x, y, 0.2)
+            [FractalEvent.zoomIn]: (x: number, y: number) => this.scale(x, y, 5),
+            [FractalEvent.zoomOut]: (x: number, y: number) => this.scale(x, y, 0.2)
         }
     }
 
-    protected drawObject({x, y, color}) {
-        this.ctx.beginPath();
-        this.ctx.rect(x, y, 1, 1);
-        this.ctx.fillStyle = color;
-        this.ctx.fill();
+    protected drawObject({x, y, w, colorArray}) {
+        const imageData = new ImageData(colorArray, w);
+        this.ctx.putImageData(imageData, x, y);
     }
 
-    private _scale(x: number, y: number, scaleFactor: number) {
-        this.scale /= scaleFactor;
+    private scale(x: number, y: number, scaleFactor: number) {
+        this.scaleFactor /= scaleFactor;
 
         const xLen = this.config.xCoords[1] - this.config.xCoords[0];
         const yLen = this.config.yCoords[1] - this.config.yCoords[0];
@@ -60,8 +55,8 @@ export class MandelbrotFractal extends BaseFractal<DrawObject, Config> implement
         const rX = xLen * x / this.config.width + this.config.xCoords[0];
         const rY = yLen * y / this.config.height + this.config.yCoords[0];
 
-        this.config.xCoords = [rX - this.scale, rX + this.scale];
-        this.config.yCoords = [rY - this.scale, rY + this.scale];
+        this.config.xCoords = [rX - this.scaleFactor, rX + this.scaleFactor];
+        this.config.yCoords = [rY - this.scaleFactor, rY + this.scaleFactor];
         if (scaleFactor > 1) {
             this.config.iterations += 50;
         } else {
@@ -72,42 +67,69 @@ export class MandelbrotFractal extends BaseFractal<DrawObject, Config> implement
     }
 }
 
-const getPallete = (iterations: number, h: number, s: number) => Array.from({length: iterations}, (_, i) => `hsl(${h},${s*100}%,${(iterations - i) / iterations * 100}%)`);
+type RGBA = [number, number, number, number];
 
-function* sequence(width: number, height: number, iterations: number, hue: number, saturation: number, [xStart, xEnd], [yStart, yEnd]): IterableIterator<DrawObject> {
+const MAX_ITER_COLORS: RGBA = [0, 0, 0, 255];
+const COLORS: RGBA[] = [
+    [66, 30, 15, 255],
+    [25, 7, 26, 255],
+    [9, 1, 47, 255],
+    [4, 4, 73, 255],
+    [0, 7, 100, 255],
+    [12, 44, 138, 255],
+    [24, 82, 177, 255],
+    [57, 125, 209, 255],
+    [134, 181, 229, 255],
+    [211, 236, 248, 255],
+    [241, 233, 191, 255],
+    [248, 201, 95, 255],
+    [255, 170, 0, 255],
+    [204, 128, 0, 255],
+    [153, 87, 0, 255],
+    [106, 52, 3, 255],
+];
+
+const WIDTH_STEP = 8;
+
+function* sequence(width: number, height: number, {iterations, xCoords:[xStart, xEnd], yCoords:[yStart, yEnd]}: Config): IterableIterator<DrawObject> {
     const xStep = (xEnd - xStart) / width;
     const yStep = (yEnd - yStart) / height;
-    const pallete = getPallete(iterations, hue, saturation);
 
-    // pixels
-    let x = -1;
-    let y;
+    let x = 0;
 
-    for (let cx=xStart; cx<xEnd; cx += xStep) {
-        x++;
-        y = 0;
+    while (x < width) {
+        const w = Math.min(WIDTH_STEP, width - x);
+        const colorArray = new Uint8ClampedArray(w * height * 4);
 
-        for(let cy=yStart; cy<yEnd; cy += yStep) {
-            let i = 0;
+        for (let i = 0; i <= colorArray.length; i += 4) {
+            const xCoord = (i / 4) % w + x;
+            const yCoord = ~~(i / 4 / w);
 
+            const cx = xStart + xStep * xCoord;
+            const cy = yStart + yStep * yCoord;
+
+            let iter = 0;
             let zx = 0;
-            let zy = 0;                        
-
+            let zy = 0;
+ 
             do {
                 const xt = zx * zy;
                 zx = zx * zx - zy * zy + cx;
                 zy = 2 * xt + cy;
-                i++;
-            } while(i<iterations && (zx * zx + zy * zy) < 4)
-            
-            const color = pallete[i];
-    
-            yield {
-                x,
-                y,
-                color
-            }
-            y++;
+                iter++;
+            } while(iter < iterations && (zx * zx + zy * zy) < 4)
+
+            const [r, g, b, a] = iter === iterations
+                ? MAX_ITER_COLORS
+                : COLORS[iter % 16];
+            colorArray[i]     = r;
+            colorArray[i + 1] = g;
+            colorArray[i + 2] = b;
+            colorArray[i + 3] = a;
         }
+
+        yield {x, y: 0, w, colorArray};
+
+        x += WIDTH_STEP;
     }
 }

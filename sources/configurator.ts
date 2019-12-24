@@ -15,13 +15,13 @@ export class Configurator {
 
         this.inputs = [];
 
-        this.events.on(FractalEvent.showConfig, config => this.show(config));
+        this.events.on(FractalEvent.showConfig, (config: Record<string, any>, hints: Record<string, undefined | string[]>) => this.show(config, hints));
     }
     isOpened() {
         return this.opened;
     }
 
-    show(config) {
+    show(config: Record<string, any>, hints: Record<string, undefined | string[]> = {}) {
         if (this.opened) {
             return;
         }
@@ -35,23 +35,37 @@ export class Configurator {
             if (config[key] instanceof Object) {
                 continue;
             }
+
             const wrapper = document.createElement("div");
             wrapper.className = "property-wrapper";
-            
             const label = document.createElement("div");
             label.className = "property-name";
             label.textContent = key;
+            wrapper.appendChild(label);
 
-            const input = document.createElement("input");
+            const input = hints[key]
+                ? document.createElement("select")
+                : document.createElement("input");
             input.id = key;
             input.value = config[key];
             inputs.push(input);
-            if (key === "width" || key === "height") {
-                input.readOnly = true;
-            }
 
-            wrapper.appendChild(label);
-            wrapper.appendChild(input);
+            if (hints[key]) {
+                for (const hint of hints[key]) {
+                    const option = document.createElement("option");
+                    option.value = hint;
+                    option.textContent = hint;
+                    option.selected = config[key] === hint;
+                    input.appendChild(option);
+                }
+                wrapper.appendChild(input);
+            } else {
+                if (key === "width" || key === "height") {
+                    (input as HTMLInputElement).readOnly = true;
+                }
+    
+                wrapper.appendChild(input);
+            }
 
             configurator.appendChild(wrapper);
         }

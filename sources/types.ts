@@ -2,6 +2,7 @@ import { EventSystem } from "./events";
 
 export enum FractalType {
     mandelbrot = "mandelbrot",
+    primeNumber = "primeNumber",
     tree = "tree",
     pythagorasTree = "pythagorasTree",
     plane = "plane",
@@ -11,7 +12,6 @@ export enum FractalType {
     dragon = "dragon",
     levi = "levi",
     spiral = "spiral",
-    midPoint = "midPoint",
     universe = "universe",
     randomPoint = "randomPoint",
     serpinski = "serpinski",
@@ -29,6 +29,7 @@ export interface Fractal {
     refresh(): void;
     destroy(): void;
     updateConfig(config: any): void;
+    getConfigHints(): Record<string, string[] | undefined>;
 }
 
 export enum FractalEvent {
@@ -49,6 +50,12 @@ export enum FractalEvent {
     resume = "resume",
     next = "next",
     download = "download"
+}
+
+export const enum KeyCode {
+    ESC = 27,
+    ARROW_LEFT = 37,
+    ARROW_RIGHT = 39,
 }
 
 export interface FractalEventSystem extends EventSystem<FractalEvent> {}

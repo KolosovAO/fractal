@@ -18,7 +18,7 @@ export abstract class BaseFractal<T, U extends {}> {
         this.events = config.events;
         delete config.events;
 
-        this.config = this.getConfig(config);
+        this.config = this.getConfig({...config, drawCount: 100});
     
         this.ctx = ctx;
         this.ctxDefaults();
@@ -29,6 +29,9 @@ export abstract class BaseFractal<T, U extends {}> {
         this.draw = this.draw.bind(this);
         this.clear();
         this.init();
+    }
+    getConfigHints(): Record<string, string[] | undefined> {
+        return {};
     }
     start() {
         if (this.running || !this.sequence) {
@@ -69,12 +72,7 @@ export abstract class BaseFractal<T, U extends {}> {
         return "default";
     }
     protected getConfig(config: DefaultConfig): any {
-        return {
-            ...config,
-            width: innerWidth,
-            height: innerHeight,
-            drawCount: 100
-        };
+        return config;
     }
     protected getEvents() {
         return {};
