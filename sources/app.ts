@@ -31,7 +31,7 @@ export class Application {
         this.events = new EventSystem<FractalEvent>();
 
         const width = window.innerWidth;
-        const height = window.innerHeight;
+        const height = window.innerHeight + 4;
     
         canvas.style.width = width + "px";
         canvas.style.height = height + "px";
@@ -141,7 +141,7 @@ export class Application {
                 case KeyCode.ARROW_RIGHT:
                     this.nextFractal();
                     break;
-            } 
+            }
         });
     }
 

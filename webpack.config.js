@@ -29,7 +29,9 @@ module.exports = {
         extensions: [".tsx", ".ts", ".js"]
     },
     plugins: [
-        new HtmlWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            title: "Fractals"
+        }),
         new MiniCssExtractPlugin({
             path: path.join(__dirname, "dist"),
             filename: "style.css"

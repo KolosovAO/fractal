@@ -1,0 +1,43 @@
+.configurator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 400px;
+
+    z-index: 1000;
+
+    background: $main-bg-color;
+}
+.property-wrapper {
+    display: flex;
+    padding: 4px 8px 4px 8px;
+}
+.property-name {
+    width: 190px;
+    font-size: 16px;
+}
+.property-wrapper input {
+    border: 2px inset #EBE9ED;
+    font-size: 16px;
+    background: inherit;
+    padding: 0 0 0 8px;
+}
+.property-wrapper select {
+    border: 2px inset #EBE9ED;
+    font-size: 16px;
+    background: inherit;
+    padding: 0 0 0 8px;
+    flex: 1;
+
+}
+.buttons-block {
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+.buttons-block button {
+    cursor: pointer;
+    font-size: 16px;
+    margin: 8px 8px 8px 8px;
+    border: none;
+}

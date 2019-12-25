@@ -55,13 +55,14 @@ export class Popup {
         }
 
         this.control = control;
+        this.container.appendChild(this.control);
     }
     isOpened() {
         return this.opened;
     }
     show(x: number, y: number) {
         if (!this.opened) {
-            this.container.appendChild(this.control);
+            this.control.classList.add("control__show");
             this.opened = true;
         }
         if (this.lastX) {
@@ -85,7 +86,7 @@ export class Popup {
         }
 
         this.opened = false;
-        this.container.removeChild(this.control);
+        this.control.classList.remove("control__show");
         this.events.fire(FractalEvent.hidePopup);
     }
 }

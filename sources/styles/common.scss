@@ -1,0 +1,15 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+* {
+    font-family: Roboto;
+    box-sizing: border-box;
+}
+
+$main-bg-color: #cecece;
+$main-border-color: rgba(0, 0, 0, 0.7);
+$main-font-size: 16px;
+$big-font-size: 24px;

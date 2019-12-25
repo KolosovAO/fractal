@@ -1,0 +1,38 @@
+$popup-width: 164px;
+
+.control {
+    position: absolute;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+
+    overflow: hidden;
+
+    background: $main-bg-color;
+    color: $main-border-color;
+    font-size: $main-font-size;
+    border: 1px solid $main-border-color;
+
+    width: $popup-width;
+    border-radius: 30px;
+    opacity: 0;
+
+    transition: opacity .4s ease-in-out;
+
+    &__show {
+        opacity: 1;
+    }
+
+    div {
+        display: flex;
+        line-height: 24px;
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 1px solid $main-border-color;
+    }
+
+    div:last-child {
+        border-bottom: none;
+    }
+}
