@@ -1,5 +1,10 @@
 import { LeviFractal } from "./levi";
 
+interface Point {
+    x: number;
+    y: number;
+}
+
 export class DragonFractal extends LeviFractal {
     protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.iterations);
@@ -12,7 +17,7 @@ function* sequence(width: number, height: number, iterations: number) {
     const cosA = Math.cos(radian45);
     const sinA = Math.sin(radian45);
 
-    let pairs: any = [
+    let pairs: [Point, Point, number][] = [
         [
             {
                 x: width / 3,
@@ -24,7 +29,7 @@ function* sequence(width: number, height: number, iterations: number) {
             },
             1
         ]
-    ]
+    ];
 
     let iteration = -1;
 

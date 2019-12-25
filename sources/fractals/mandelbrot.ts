@@ -1,10 +1,12 @@
 import { Fractal, FractalEvent } from "../types";
 import { BaseFractal } from "../baseFractal";
 
+type Coord = [number, number];
+
 interface Config {
-    xCoords?: [number, number];
-    yCoords?: [number, number];
-    iterations?: number;
+    xCoords: Coord;
+    yCoords: Coord;
+    iterations: number;
 }
 
 interface DrawObject {
@@ -15,16 +17,15 @@ interface DrawObject {
 }
 
 export class MandelbrotFractal extends BaseFractal<DrawObject, Config> implements Fractal {
-    private scaleFactor: number = 1;
+    private scaleFactor = 1;
 
-    protected getConfig(config) {
+    protected getOwnConfig() {
         return {
-            ...config,
             drawCount: 4,
-            xCoords: [-1.9, 0.7],
-            yCoords: [-1.2, 1.2],
+            xCoords: [-1.9, 0.7] as Coord,
+            yCoords: [-1.2, 1.2] as Coord,
             iterations: 100,
-        }
+        };
     }
 
     protected onInit() {
@@ -122,7 +123,7 @@ function* sequence(width: number, height: number, {iterations, xCoords:[xStart, 
             const [r, g, b, a] = iter === iterations
                 ? MAX_ITER_COLORS
                 : COLORS[iter % 16];
-            colorArray[i]     = r;
+            colorArray[i] = r;
             colorArray[i + 1] = g;
             colorArray[i + 2] = b;
             colorArray[i + 3] = a;

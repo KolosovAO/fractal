@@ -12,9 +12,8 @@ interface DrawObject {
 }
 
 export class Universe extends BaseFractal<DrawObject, Config> implements Fractal {
-    protected getConfig(config) {
+    protected getOwnConfig() {
         return {
-            ...config,
             drawCount: 100
         }
     }

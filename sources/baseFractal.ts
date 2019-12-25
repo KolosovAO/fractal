@@ -6,6 +6,8 @@ interface DefaultConfig {
     drawCount: number;
 }
 
+const DEFAULT_DRAW_COUNT = 100;
+
 export abstract class BaseFractal<T, U extends {}> {
     public config: U & DefaultConfig;
     public events: FractalEventSystem;
@@ -14,11 +16,15 @@ export abstract class BaseFractal<T, U extends {}> {
     private running: boolean;
     private sequence: IterableIterator<T>;
 
-    constructor(ctx: CanvasRenderingContext2D, config: DefaultConfig & {events: FractalEventSystem}) {
-        this.events = config.events;
-        delete config.events;
+    constructor(ctx: CanvasRenderingContext2D, personalConfig: DefaultConfig & {events: FractalEventSystem}) {
+        const {events, ...config} = personalConfig;
+        this.events = events;
 
-        this.config = this.getConfig({...config, drawCount: 100});
+        this.config = {
+            drawCount: DEFAULT_DRAW_COUNT,
+            ...config,
+            ...this.getOwnConfig()
+        }
     
         this.ctx = ctx;
         this.ctxDefaults();
@@ -71,8 +77,8 @@ export abstract class BaseFractal<T, U extends {}> {
     protected getMode(): "default" | "night" {
         return "default";
     }
-    protected getConfig(config: DefaultConfig): any {
-        return config;
+    protected getOwnConfig(): U & Partial<DefaultConfig> {
+        return {} as U;
     }
     protected getEvents() {
         return {};

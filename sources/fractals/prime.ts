@@ -13,9 +13,8 @@ interface DrawObject {
 }
 
 export class PrimeFractal extends BaseFractal<DrawObject, Config> implements Fractal {
-    protected getConfig(config) {
+    protected getOwnConfig() {
         return {
-            ...config,
             drawCount: 20,
             step: 2
         }

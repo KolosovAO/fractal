@@ -33,16 +33,15 @@ export class PrimeNumberFractal extends BaseFractal<DrawObject, Config> implemen
         };
     }
 
-    protected getConfig(config) {
+    protected getOwnConfig() {
         return {
-            ...config,
             drawCount: 1,
             type: "^",
             red: 0,
             green: 255,
             blue: 255,
             alpha: 255
-        }
+        } as const;
     }
 
     protected async getSequence() {
@@ -70,7 +69,7 @@ function* sequence(width: number, height: number, {red, green, blue, alpha, type
             const yCoord = ~~(i / 4 / w);
 
             if (primesMap[transformFN(xCoord, yCoord)]) {
-                colorArray[i]     = red;
+                colorArray[i] = red;
                 colorArray[i + 1] = green;
                 colorArray[i + 2] = blue;
                 colorArray[i + 3] = alpha;

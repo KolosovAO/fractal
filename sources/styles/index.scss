@@ -1,0 +1,99 @@
+@import url("http://fonts.googleapis.com/css?family=Roboto");
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.control {
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 1000;
+    background: #dedede;
+    color: rgba(0, 0, 0, 0.7);
+    width: 10%;
+    border-radius: 30px;
+    overflow: hidden;
+    font-family: Roboto;
+    font-size: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+}
+.control div {
+    box-sizing: border-box;
+    line-height: 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+.control div:last-child {
+    border-bottom: none;
+}
+
+.configurator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 400px;
+    background: #cecece;
+    z-index: 1000;
+}
+.property-wrapper {
+    display: flex;
+    padding: 4px 8px 4px 8px;
+}
+.property-name {
+    width: 190px;
+    font-family: Roboto;
+    font-size: 16px;
+}
+.property-wrapper input {
+    font-family: Roboto;
+    border: 2px inset #EBE9ED;
+    font-size: 16px;
+    background: inherit;
+    padding: 0 0 0 8px;
+}
+.property-wrapper select {
+    font-family: Roboto;
+    border: 2px inset #EBE9ED;
+    font-size: 16px;
+    background: inherit;
+    padding: 0 0 0 8px;
+    flex: 1;
+
+}
+.buttons-block {
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+.buttons-block button {
+    cursor: pointer;
+    font-family: Roboto;
+    font-size: 16px;
+    margin: 8px 8px 8px 8px;
+    border: none;
+}
+.fractal-title {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 8px;
+    color: #fff;
+    background: #000;
+    opacity: 0.8;
+    font-family: Roboto;
+    text-transform: capitalize;
+    font-size: 24px;
+}
+.fractal-helper-message {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: Roboto;
+    padding: 4px;
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 24px;
+}

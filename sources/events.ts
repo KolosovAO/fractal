@@ -16,7 +16,7 @@ export class EventSystem<E extends string> {
 		this.events = {};
 		this.context = context || this;
 	}
-	on(name: E, callback: any, context?:any, once?: boolean) {
+	on(name: E, callback: any, context?: any, once?: boolean) {
 		this.events[name] = this.events[name] || [];
 		this.events[name].push({
             callback,

@@ -19,9 +19,8 @@ interface DrawObject {
 }
 
 export class CircleFractal extends BaseFractal<DrawObject, Config> implements Fractal {
-    protected getConfig(config) {
+    protected getOwnConfig() {
         return {
-            ...config,
             drawCount: 1,
             points: 360,
             iterations: 20

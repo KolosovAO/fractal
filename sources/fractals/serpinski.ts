@@ -12,9 +12,8 @@ interface DrawObject {
 }
 
 export class SerpinskiFractal extends BaseFractal<DrawObject, Config> implements Fractal {
-    protected getConfig(config) {
+    protected getOwnConfig() {
         return {
-            ...config,
             drawCount: 400,
             edges: 3,
             pointSize: 0.2

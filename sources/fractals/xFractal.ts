@@ -11,9 +11,8 @@ interface DrawObject {
 }
 
 export class XFractal extends BaseFractal<DrawObject, Config> implements Fractal {
-    protected getConfig(config) {
+    protected getOwnConfig() {
         return {
-            ...config,
             drawCount: 40
         }
     }

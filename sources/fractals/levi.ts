@@ -18,9 +18,8 @@ interface DrawObject {
 }
 
 export class LeviFractal extends BaseFractal<DrawObject, Config> implements Fractal {
-    protected getConfig(config) {
+    protected getOwnConfig() {
         return {
-            ...config,
             drawCount: 50,
             iterations: 20
         }

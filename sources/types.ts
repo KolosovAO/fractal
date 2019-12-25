@@ -58,4 +58,4 @@ export const enum KeyCode {
     ARROW_RIGHT = 39,
 }
 
-export interface FractalEventSystem extends EventSystem<FractalEvent> {}
+export type FractalEventSystem = EventSystem<FractalEvent>

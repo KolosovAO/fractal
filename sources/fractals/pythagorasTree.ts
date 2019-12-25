@@ -2,7 +2,6 @@ import { Fractal } from "../types";
 import { BaseFractal } from "../baseFractal";
 
 interface Config {
-    size: number;
     depth: number;
 }
 
@@ -20,16 +19,15 @@ export class PythagorasTree extends BaseFractal<DrawObject, Config> implements F
     protected getMode(): "night" | "default" {
         return "night";
     }
-    protected getConfig(config) {
+    protected getOwnConfig() {
         return {
-            ...config,
             drawCount: 10,
-            size: config.width * .1,
             depth: 13
         }
     }
     protected async getSequence() {
-        return sequence(this.config.width, this.config.height, this.config.size, this.config.depth);
+        const size = this.config.width * .1;
+        return sequence(this.config.width, this.config.height, size, this.config.depth);
     }
 
     protected drawObject({points: [init, ...other], fill}) {

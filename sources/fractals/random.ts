@@ -11,9 +11,8 @@ interface DrawObject {
 }
 
 export class RandomPointFractal extends BaseFractal<DrawObject, Config> implements Fractal {
-    protected getConfig(config) {
+    protected getOwnConfig() {
         return {
-            ...config,
             drawCount: 400,
             radius: 5
         }

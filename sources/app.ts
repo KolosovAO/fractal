@@ -55,7 +55,7 @@ export class Application {
         this.nextFractal();
     }
 
-    nextFractal(offset: number = 1) {
+    nextFractal(offset = 1) {
         if (this.popup.isOpened()) {
             this.popup.hide();
         }
@@ -99,7 +99,7 @@ export class Application {
             this.fractal.updateConfig(config);
         });
 
-        this.events.on(FractalEvent.showHelp, (msg: string, delay: number = 3000) => {
+        this.events.on(FractalEvent.showHelp, (msg: string, delay = 3000) => {
             if (this.fractalHelperMessageTimeout) {
                 clearTimeout(this.fractalHelperMessageTimeout);
                 document.body.removeChild(this.fractalHelperMessage);

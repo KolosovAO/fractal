@@ -12,9 +12,8 @@ interface DrawObject {
 }
 
 export class TFractal extends BaseFractal<DrawObject, Config> implements Fractal {
-    protected getConfig(config) {
+    protected getOwnConfig() {
         return {
-            ...config,
             drawCount: 2000,
             pattern: "0110,1001,1001,0110"
         }

@@ -15,9 +15,8 @@ interface DrawObject {
 }
 
 export class TreeFractal extends BaseFractal<DrawObject, Config> implements Fractal {
-    protected getConfig(config) {
+    protected getOwnConfig() {
         return {
-            ...config,
             drawCount: 1,
             angle: 60
         }
