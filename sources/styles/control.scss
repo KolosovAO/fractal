@@ -1,4 +1,4 @@
-$popup-width: 164px;
+$popup-width: 180px;
 
 .control {
     position: absolute;
@@ -18,8 +18,10 @@ $popup-width: 164px;
     opacity: 0;
 
     transition: opacity .4s ease-in-out;
+    pointer-events: none;
 
     &__show {
+        pointer-events: all;
         opacity: 1;
     }
 
@@ -30,6 +32,13 @@ $popup-width: 164px;
         justify-content: center;
         align-items: center;
         border-bottom: 1px solid $main-border-color;
+
+        background-color: inherit;
+        transition: background-color .2s ease-in-out;
+
+        &:hover {
+            background-color: $select-bg-color;
+        }
     }
 
     div:last-child {

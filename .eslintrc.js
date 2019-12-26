@@ -23,6 +23,7 @@ module.exports = {
         "no-multi-spaces": [
             "error",
             { ignoreEOLComments: false }
-        ]
+        ],
+        "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }]
     }
   };

@@ -7,37 +7,61 @@
     z-index: 1000;
 
     background: $main-bg-color;
+
+    &__header {
+        font-size: $big-font-size;
+        background-color: $select-bg-color;
+        text-align: center;
+    }
 }
-.property-wrapper {
+
+.property {
     display: flex;
     padding: 4px 8px 4px 8px;
-}
-.property-name {
-    width: 190px;
-    font-size: 16px;
-}
-.property-wrapper input {
-    border: 2px inset #EBE9ED;
-    font-size: 16px;
-    background: inherit;
-    padding: 0 0 0 8px;
-}
-.property-wrapper select {
-    border: 2px inset #EBE9ED;
-    font-size: 16px;
-    background: inherit;
-    padding: 0 0 0 8px;
-    flex: 1;
 
+    select, input {
+        flex: 1;
+        font-size: $main-font-size;
+        border: none;
+        background: inherit;
+        padding: 0 0 0 8px;
+        box-sizing: border-box;
+
+        border-bottom: 2px solid $main-bg-color;
+        transition: border-bottom .3s ease-in-out;
+
+        &:focus {
+            outline: none;
+            border-bottom: 2px solid $main-border-color;
+        }
+    }
+
+    &__name {
+        font-size: $main-font-size;
+        border-right: 2px solid $main-border-color;
+        width: 190px;
+    }
 }
-.buttons-block {
-    height: 40px;
+
+.buttons {
+    flex: 1;
     display: flex;
     justify-content: space-between;
-}
-.buttons-block button {
-    cursor: pointer;
-    font-size: 16px;
-    margin: 8px 8px 8px 8px;
-    border: none;
+
+    button {
+        cursor: pointer;
+        height: 32px;
+        font-size: 16px;
+        border: none;
+
+        padding-left: 12px;
+        padding-right: 12px;
+
+        background-color: $alt-bg-color;
+        transition: background-color .2s ease-in-out;
+
+        &:hover {
+            background-color: $select-bg-color;
+        }
+    }
 }

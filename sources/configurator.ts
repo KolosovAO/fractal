@@ -31,15 +31,21 @@ export class Configurator {
         const configurator = this.configurator = document.createElement("div");
         configurator.className = "configurator";
 
+        const header = document.createElement("div");
+        header.className = "configurator__header";
+        header.textContent = "Configuration";
+
+        configurator.appendChild(header);
+
         for (const key in config) {
-            if (config[key] instanceof Object) {
+            if (key === "width" || key === "height" || config[key] instanceof Object) {
                 continue;
             }
 
             const wrapper = document.createElement("div");
-            wrapper.className = "property-wrapper";
+            wrapper.className = "property";
             const label = document.createElement("div");
-            label.className = "property-name";
+            label.className = "property__name";
             label.textContent = key;
             wrapper.appendChild(label);
 
@@ -60,10 +66,6 @@ export class Configurator {
                 }
                 wrapper.appendChild(input);
             } else {
-                if (key === "width" || key === "height") {
-                    (input as HTMLInputElement).readOnly = true;
-                }
-    
                 wrapper.appendChild(input);
             }
 
@@ -73,7 +75,7 @@ export class Configurator {
         this.inputs = inputs;
 
         const buttonsBlock = document.createElement("div");
-        buttonsBlock.className = "buttons-block";
+        buttonsBlock.className = "buttons";
 
         const update = document.createElement("button");
         update.textContent = "update";
