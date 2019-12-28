@@ -16,7 +16,7 @@ export class EventSystem<E extends string> {
 		this.events = {};
 		this.context = context || this;
 	}
-	on(name: E, callback: any, context?: any, once?: boolean) {
+	public on(name: E, callback: any, context?: any, once?: boolean) {
 		this.events[name] = this.events[name] || [];
 		this.events[name].push({
             callback,
@@ -24,7 +24,7 @@ export class EventSystem<E extends string> {
 			once
         });
 	}
-	detach(name: E, context?: any) {
+	public detach(name: E, context?: any) {
 		if (!this.events[name]) {
             return;
         }
@@ -34,7 +34,7 @@ export class EventSystem<E extends string> {
 			this.events[name] = [];
         }
 	}
-	fire(name: E, args?: any[]): boolean {
+	public fire(name: E, args?: any[]): boolean {
 		if (typeof args === "undefined"){
 			args = [];
 		}

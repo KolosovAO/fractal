@@ -1,4 +1,5 @@
-import { FractalEventSystem, FractalEvent } from "./types";
+import { FractalEventSystem, FractalEvent, Fractal } from "./types";
+import { objectKeys } from "./ts-utils/object-keys";
 
 interface DefaultConfig {
     width: number;
@@ -8,7 +9,7 @@ interface DefaultConfig {
 
 const DEFAULT_DRAW_COUNT = 100;
 
-export abstract class BaseFractal<T, U extends {}> {
+export abstract class BaseFractal<T, U extends {}> implements Fractal {
     public config: U & DefaultConfig;
     public events: FractalEventSystem;
     public ctx: CanvasRenderingContext2D;
@@ -35,37 +36,39 @@ export abstract class BaseFractal<T, U extends {}> {
         this.clear();
         this.init();
     }
-    getConfigHints(): Record<string, string[] | undefined> {
+
+    public getConfigHints(): Record<string, string[] | undefined> {
         return {};
     }
-    start() {
+
+    public start(): void {
         if (this.running || !this.sequence) {
             return;
         }
         this.running = true;
-        requestAnimationFrame(this.draw);
+        requestAnimationFrame(this.startDrawLoop);
     }
-    stop() {
+    public stop(): void {
         this.running = false;
     }
-    async refresh() {
+    public async refresh(): Promise<void> {
         this.sequence = await this.getSequence();
         this.stop();
         this.clear();
         this.onRefresh();
         this.start();
     }
-    destroy() {
+    public destroy(): void {
         this.stop();
         this.sequence = null;
         this.ctx.clearRect(0, 0, this.config.width, this.config.height);
         this.destroyEvents();
     }
-    updateConfig(config: U) {
+    public updateConfig(config: U): void {
         this.config = {...this.config, ...config};
         this.refresh();
     }
-    clear() {
+    public clear(): void {
         if (this.getMode() === "night") {
             this.ctx.fillStyle = "#000";
             this.ctx.fillRect(0, 0, this.config.width, this.config.height);
@@ -73,17 +76,18 @@ export abstract class BaseFractal<T, U extends {}> {
             this.ctx.clearRect(0, 0, this.config.width, this.config.height);
         }
     }
+
     protected getMode(): "default" | "night" {
         return "default";
     }
     protected getOwnConfig(): U & Partial<DefaultConfig> {
         return {} as U;
     }
-    protected getEvents() {
+    protected getEvents(): Partial<Record<FractalEvent, (...args) => void>> {
         return {};
     }
 
-    protected ctxGlobals() {
+    protected ctxGlobals(): void {
         return;
     }
 
@@ -102,7 +106,7 @@ export abstract class BaseFractal<T, U extends {}> {
     protected onRefresh(): void {
         return;
     }
-    private draw = () => {
+    private startDrawLoop = (): void => {
         this.onDrawStart();
 
         let count = this.config.drawCount;
@@ -120,15 +124,15 @@ export abstract class BaseFractal<T, U extends {}> {
         this.onDrawEnd();
 
         if (this.running) {
-            requestAnimationFrame(this.draw);
+            requestAnimationFrame(this.startDrawLoop);
         }
     }
-    private async init() {
+    private async init(): Promise<void> {
         this.sequence = await this.getSequence();
         this.onInit();
         this.start();
     }
-    private ctxDefaults() {
+    private ctxDefaults(): void {
         this.ctx.lineWidth = 1;
         if (this.getMode() === "night") {
             this.ctx.strokeStyle = "#FFF";
@@ -142,18 +146,18 @@ export abstract class BaseFractal<T, U extends {}> {
 
         this.ctx.font = "24px Roboto";
     }
-    private attachEvents() {
+    private attachEvents(): void {
         const events = this.getEvents();
 
-        for (const name in events) {
-            this.events.on(name as FractalEvent, events[name], this);
-        }
+        objectKeys(events).forEach(name => {
+            this.events.on(name, events[name], this);
+        });
     }
-    private destroyEvents() {
-        const events = Object.keys(this.getEvents());
+    private destroyEvents(): void {
+        const events = this.getEvents();
 
-        events.forEach(event => {
-            this.events.detach(event as FractalEvent, this);
+        objectKeys(events).forEach(name => {
+            this.events.detach(name, this);
         });
     }
 }

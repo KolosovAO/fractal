@@ -1,4 +1,4 @@
-import { FractalEventSystem, FractalEvent } from "./types";
+import { FractalEventSystem, FractalEvent } from "../types";
 
 export class Configurator {
     public container: HTMLElement;
@@ -17,11 +17,11 @@ export class Configurator {
 
         this.events.on(FractalEvent.showConfig, (config: Record<string, any>, hints: Record<string, undefined | string[]>) => this.show(config, hints));
     }
-    isOpened() {
+    public isOpened() {
         return this.opened;
     }
 
-    show(config: Record<string, any>, hints: Record<string, undefined | string[]> = {}) {
+    public show(config: Record<string, any>, hints: Record<string, undefined | string[]> = {}) {
         if (this.opened) {
             return;
         }
@@ -97,7 +97,7 @@ export class Configurator {
 
         this.container.appendChild(configurator);
     }
-    hide() {
+    public hide() {
         this.opened = false;
         this.inputs = [];
         this.container.removeChild(this.configurator);

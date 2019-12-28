@@ -1,8 +1,8 @@
 import { FractalType } from "./types";
 import { PrimeFractal } from "./fractals/prime";
-import { TFractal } from "./fractals/tFractal";
+import { TFractal } from "./fractals/t";
 import { SerpinskiFractal } from "./fractals/serpinski";
-import { XFractal } from "./fractals/xFractal";
+import { XFractal } from "./fractals/x";
 import { MandelbrotFractal } from "./fractals/mandelbrot";
 import { LeviFractal } from "./fractals/levi";
 import { DragonFractal } from "./fractals/dragon";
@@ -13,8 +13,8 @@ import { SpiralFractal } from "./fractals/spiral";
 import { RandomPointFractal } from "./fractals/random";
 import { Universe } from "./fractals/universe";
 import { TreeFractal } from "./fractals/tree";
-import { PythagorasTree } from "./fractals/pythagorasTree";
-import { PrimeNumberFractal } from "./fractals/primeNumber";
+import { PythagorasTree } from "./fractals/pythagoras-tree";
+import { PrimeNumberFractal } from "./fractals/prime-number";
 
 export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config: any) {
     switch(type) {

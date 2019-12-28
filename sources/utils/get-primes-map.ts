@@ -1,10 +1,3 @@
-export function greaterThanZero(value: number) {
-    if (value < 0) {
-        return 0;
-    }
-    return value;
-}
-
 export function getPrimesMap(count: number): Record<number, boolean> {
     const store = Array(~~(count/31) + 1).fill(0);
     const isSet = (bit: number): boolean => Boolean(store[~~(bit / 31)] & 1 << bit % 31);
@@ -22,7 +15,7 @@ export function getPrimesMap(count: number): Record<number, boolean> {
 
     const primesMap = {2: true};
 
-    for (let n = 3; n<=count ; n+=2) {
+    for (let n = 3; n <= count ; n += 2) {
         if (!isSet(n)) {
             primesMap[n] = true;
         }

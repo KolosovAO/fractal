@@ -20,10 +20,29 @@ module.exports = {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/explicit-member-accessibility": ["error", {
+            accessibility: 'explicit',
+            overrides: {
+                accessors: 'explicit',
+                constructors: 'no-public',
+                methods: 'explicit',
+                properties: 'explicit',
+                parameterProperties: 'explicit'
+            }
+        }],
         "no-multi-spaces": [
             "error",
             { ignoreEOLComments: false }
         ],
-        "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }]
+        "operator-linebreak": [
+            "error",
+            "after",
+            {
+                "overrides": {
+                    "?": "before",
+                    ":": "before"
+                }
+            }
+        ]
     }
-  };
+};

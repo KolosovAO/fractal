@@ -1,8 +1,8 @@
-import { Popup } from "./popup";
+import { Popup } from "./blocks/popup";
 import { FractalType, Fractal, FractalEventSystem, FractalEvent, KeyCode } from "./types";
-import { factory } from "./fractalFactory";
-import { EventSystem } from "./events";
-import { Configurator } from "./configurator";
+import { factory } from "./fractal-factory";
+import { EventSystem } from "./utils/events";
+import { Configurator } from "./blocks/configurator";
 
 export class Application {
     public canvas: HTMLCanvasElement;
@@ -55,7 +55,7 @@ export class Application {
         this.nextFractal();
     }
 
-    nextFractal(offset = 1) {
+    public nextFractal(offset = 1) {
         if (this.popup.isOpened()) {
             this.popup.hide();
         }

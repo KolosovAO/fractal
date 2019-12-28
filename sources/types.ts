@@ -1,4 +1,4 @@
-import { EventSystem } from "./events";
+import { EventSystem } from "./utils/events";
 
 export enum FractalType {
     mandelbrot = "mandelbrot",

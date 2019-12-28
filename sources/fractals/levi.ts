@@ -1,5 +1,5 @@
 import { Fractal } from "../types";
-import { BaseFractal } from "../baseFractal";
+import { BaseFractal } from "../base-fractal";
 
 interface Config {
     iterations: number;

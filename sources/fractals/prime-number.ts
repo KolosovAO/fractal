@@ -1,6 +1,6 @@
 import { Fractal } from "../types";
-import { BaseFractal } from "../baseFractal";
-import { getPrimesMap } from "../helpers";
+import { BaseFractal } from "../base-fractal";
+import { getPrimesMap } from "../utils/get-primes-map";
 
 type NumberType = "&" | "|" | "^";
 type TransformFn = (a: number, b: number) => number;
@@ -27,7 +27,7 @@ const TYPE_TO_FN_MAP: Record<NumberType, TransformFn> = {
 };
 
 export class PrimeNumberFractal extends BaseFractal<DrawObject, Config> implements Fractal {
-    getConfigHints() {
+    public getConfigHints() {
         return {
             type: ["&", "|", "^"]
         };

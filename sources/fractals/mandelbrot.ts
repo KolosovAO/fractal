@@ -1,5 +1,5 @@
 import { Fractal, FractalEvent } from "../types";
-import { BaseFractal } from "../baseFractal";
+import { BaseFractal } from "../base-fractal";
 
 type Coord = [number, number];
 

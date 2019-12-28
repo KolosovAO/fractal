@@ -1,5 +1,4 @@
-import { FractalEventSystem, FractalEvent } from "./types";
-import { greaterThanZero } from "./helpers";
+import { FractalEventSystem, FractalEvent } from "../types";
 
 export class Popup {
     public container: HTMLElement;
@@ -57,10 +56,10 @@ export class Popup {
         this.control = control;
         this.container.appendChild(this.control);
     }
-    isOpened() {
+    public isOpened() {
         return this.opened;
     }
-    show(x: number, y: number) {
+    public show(x: number, y: number) {
         if (!this.opened) {
             this.control.classList.add("control__show");
             this.opened = true;
@@ -74,13 +73,13 @@ export class Popup {
         this.lastX = x;
         this.lastY = y;
         const rect = this.control.getBoundingClientRect();
-        x = Math.min(greaterThanZero(x - rect.width / 2), window.innerWidth - rect.width);
-        y = Math.min(greaterThanZero(y - rect.height / 2), window.innerHeight - rect.height);
+        x = Math.min(Math.max(0, (x - rect.width / 2)), window.innerWidth - rect.width);
+        y = Math.min(Math.max(0, (y - rect.height / 2)), window.innerHeight - rect.height);
         this.control.style.left = x + "px";
         this.control.style.top = y + "px";
     }
 
-    hide() {
+    public hide() {
         if (!this.opened) {
             return;
         }
