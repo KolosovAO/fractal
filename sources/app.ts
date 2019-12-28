@@ -3,6 +3,7 @@ import { FractalType, Fractal, FractalEventSystem, FractalEvent, KeyCode } from 
 import { factory } from "./fractal-factory";
 import { EventSystem } from "./utils/events";
 import { Configurator } from "./blocks/configurator";
+import { objectKeys } from "./ts-utils/object-keys";
 
 export class Application {
     public canvas: HTMLCanvasElement;
@@ -18,7 +19,7 @@ export class Application {
     public fractalHelperMessage: HTMLElement;
     public fractalHelperMessageTimeout: number;
 
-    private fractalTypes: FractalType[];
+    private fractalTypes: Array<keyof typeof FractalType>;
     private index: number;
 
     private width: number;
@@ -48,7 +49,7 @@ export class Application {
         this.fractalHelperMessage.className = "fractal-helper-message";
 
         this.index = -1;
-        this.fractalTypes = Object.keys(FractalType) as FractalType[];
+        this.fractalTypes = objectKeys(FractalType);
         this.initHandlers();
 
 
