@@ -126,21 +126,25 @@ export class Application {
             this.showMenu(e);
         });
         document.addEventListener("keydown", (e: KeyboardEvent) => {
-            if (this.configurator.isOpened()) {
-                return;
-            }
             switch(e.keyCode) {
                 case KeyCode.ESC:
                     if (this.popup.isOpened()) {
                         this.popup.hide();
                         this.fractal.start();
+                    } else if (this.configurator.isOpened()) {
+                        this.configurator.hide();
+                        this.fractal.start();
                     }
                     break;
                 case KeyCode.ARROW_LEFT:
-                    this.nextFractal(-1);
+                    if (!this.configurator.isOpened()) {
+                        this.nextFractal(-1);
+                    }
                     break;
                 case KeyCode.ARROW_RIGHT:
-                    this.nextFractal();
+                    if (!this.configurator.isOpened()) {
+                        this.nextFractal();
+                    }
                     break;
             }
         });
