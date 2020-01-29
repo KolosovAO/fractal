@@ -56,7 +56,7 @@ function* sequence(width: number, height: number, size: number, totalDepth: numb
     ];
 
     while (depth < totalDepth) {
-        const newPoints = [];
+        const newPoints: [number, number, number, number][] = [];
         for (const [x1, y1, x2, y2] of points) {
             const dx = x2 - x1;
             const dy = y1 - y2;

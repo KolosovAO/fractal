@@ -84,6 +84,6 @@ function* sequence(width: number, height: number): IterableIterator<DrawObject> 
                 // }
             );
             return arr;
-        }, []);
+        }, [] as DrawObject[]);
     }
 }

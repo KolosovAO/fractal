@@ -15,7 +15,7 @@ export abstract class BaseFractal<T, U extends {}> implements Fractal {
     public ctx: CanvasRenderingContext2D;
 
     private running: boolean;
-    private sequence: IterableIterator<T>;
+    private sequence: IterableIterator<T> | null;
 
     constructor(ctx: CanvasRenderingContext2D, configWithEvents: DefaultConfig & {events: FractalEventSystem}) {
         const {events, ...config} = configWithEvents;
@@ -111,7 +111,7 @@ export abstract class BaseFractal<T, U extends {}> implements Fractal {
 
         let count = this.config.drawCount;
         while (count && this.running) {
-            const object = this.sequence.next().value;
+            const object = this.sequence!.next().value;
             if (!object) { // [TODO] fix it
                 this.onDrawEnd();
                 this.stop();

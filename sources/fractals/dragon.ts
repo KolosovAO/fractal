@@ -34,7 +34,7 @@ function* sequence(width: number, height: number, iterations: number) {
     let iteration = -1;
 
     while (++iteration < iterations) {
-        const newPairs = [];
+        const newPairs: [Point, Point, number][] = [];
         
         yield {
             clear: true,
@@ -60,7 +60,7 @@ function* sequence(width: number, height: number, iterations: number) {
                 y: cosA * (xDif * sinA*k + yDif * cosA) + y1
             };
 
-            newPairs.push([p1,p3,1], [p3,p2,-1]);
+            newPairs.push([p1, p3, 1], [p3, p2, -1]);
         }
         
         pairs = newPairs;

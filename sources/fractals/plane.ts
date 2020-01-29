@@ -6,9 +6,9 @@ interface Config {
 }
 
 interface DrawObject {
-    x?: number;
-    y?: number;
-    color?: string;
+    x: number;
+    y: number;
+    color: string;
 }
 
 export class PlaneFractal extends BaseFractal<DrawObject, Config> implements Fractal {
@@ -32,7 +32,7 @@ export class PlaneFractal extends BaseFractal<DrawObject, Config> implements Fra
 
 function* sequence(width, height, roughness): IterableIterator<DrawObject> {
     const h = 2 ** ~~Math.log2(height) + 1;
-    const m = Array.from({length: h}, _ => Array.from({length: h}));
+    const m: number[][] = Array.from({length: h}, _ => Array.from({length: h}));
 
     const deltaX = (width - h) / 2;
     const deltaY = (height - h) / 2;
@@ -69,7 +69,7 @@ function* sequence(width, height, roughness): IterableIterator<DrawObject> {
     
     let dist = h >> 1;
 
-    function* square(m) {
+    function* square(m: number[][]) {
         for (let i=dist; i<h; i+=2*dist) {
             for (let j=dist; j<h; j+=2*dist) {
                 m[i][j] = av(m[i-dist][j-dist], m[i-dist][j+dist], m[i+dist][j-dist], m[i+dist][j+dist]) + rand(360) / h * dist * roughness;
@@ -81,13 +81,13 @@ function* sequence(width, height, roughness): IterableIterator<DrawObject> {
             }
         }
     }
-    function* rhomb(m) {
+    function* rhomb(m: number[][]) {
         for (let i=0; i<h; i+=dist) {
             for (let j=0; j<h; j+=dist) {
                 if (m[i][j]) {
                     continue;
                 }
-                const points = [];
+                const points: number[] = [];
                 if (m[i - dist]) {
                     points.push(m[i-dist][j]);
                 }

@@ -11,7 +11,7 @@ interface DrawObject {
     x2: number;
     y2: number;
     lineWidth: number;
-    angle?: number;
+    angle: number;
 }
 
 export class TreeFractal extends BaseFractal<DrawObject, Config> implements Fractal {
@@ -50,7 +50,7 @@ function* sequence(width: number, height: number, angle: number): IterableIterat
 
    angle = Math.PI * angle / 180;
 
-    let lines = [
+    let lines: DrawObject[] = [
         {
             x1: width / 2,
             y1: height,
@@ -64,7 +64,7 @@ function* sequence(width: number, height: number, angle: number): IterableIterat
     while(dist > 1) {
         dist /= 1.8;
         lineWidth /= 1.4;
-        const newLines = [];
+        const newLines: DrawObject[] = [];
         for (const line of lines) {
             yield line;
 

@@ -48,10 +48,10 @@ function* sequence(width: number, height: number): IterableIterator<DrawObject> 
 
     yield main;
 
-    let objs = [main];
+    let objs: DrawObject[] = [main];
 
     while (objs.length < 10000) {
-        const newObjs = [];
+        const newObjs: DrawObject[] = [];
 
         for (let i=0; i<objs.length; i++) {
             const {x, y, radius, color, ring} = objs[i];

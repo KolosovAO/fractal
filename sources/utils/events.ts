@@ -1,7 +1,7 @@
 interface Event {
 	callback: any;
 	context: any;
-	once: boolean;
+	once?: boolean;
 }
 interface Events {
 	[key: string]: Event[];
@@ -40,7 +40,7 @@ export class EventSystem<E extends string> {
 		}
 
 		if (this.events[name]) {
-			const toDelete = [];
+			const toDelete: Array<{ name: E; context: any }> = [];
 			const res = this.events[name].map(
 				e => {
 					if (e.once) {

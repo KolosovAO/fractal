@@ -17,7 +17,7 @@ export class Application {
     public fractal: Fractal;
     public fractalTitle: HTMLElement;
     public fractalHelperMessage: HTMLElement;
-    public fractalHelperMessageTimeout: number;
+    public fractalHelperMessageTimeout: number | null;
 
     private fractalTypes: Array<keyof typeof FractalType>;
     private index: number;
@@ -27,7 +27,7 @@ export class Application {
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
-        this.ctx = canvas.getContext("2d");
+        this.ctx = canvas.getContext("2d")!;
 
         this.events = new EventSystem<FractalEvent>();
 

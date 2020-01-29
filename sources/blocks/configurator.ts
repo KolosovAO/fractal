@@ -4,7 +4,7 @@ export class Configurator {
     public container: HTMLElement;
     public events: FractalEventSystem;
 
-    private inputs: HTMLInputElement[];
+    private inputs: Array<HTMLInputElement | HTMLSelectElement>;
     private configurator: HTMLElement;
 
     private opened: boolean;
@@ -26,7 +26,7 @@ export class Configurator {
             return;
         }
         this.opened = true;
-        const inputs = [];
+        const inputs: Array<HTMLInputElement | HTMLSelectElement> = [];
 
         const configurator = this.configurator = document.createElement("div");
         configurator.className = "configurator";
@@ -56,8 +56,9 @@ export class Configurator {
             input.value = config[key];
             inputs.push(input);
 
-            if (hints[key]) {
-                for (const hint of hints[key]) {
+            const keyHints = hints[key];
+            if (keyHints) {
+                for (const hint of keyHints) {
                     const option = document.createElement("option");
                     option.value = hint;
                     option.textContent = hint;

@@ -39,7 +39,7 @@ function random(value: number): number {
 }
 
 function* sequence(width: number, height: number, count: number): IterableIterator<DrawObject> {
-    const points = [];
+    const points: DrawObject[] = [];
     for (let i=0; i<count; i++) {
         const point = {
             x: random(width),

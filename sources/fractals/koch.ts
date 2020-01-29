@@ -5,14 +5,19 @@ interface Config {
     iterations: number;
 }
 
-interface DrawObject {
-    x1?: number;
-    y1?: number;
-    x2?: number;
-    y2?: number;
-    clear?: boolean;
-    iteration?: number;
+interface DrawableObject {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
 }
+
+interface NextIterationObject {
+    clear: true;
+    iteration: number;
+}
+
+type DrawObject = NextIterationObject | DrawableObject;
 
 export class KochFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getOwnConfig() {
@@ -51,7 +56,7 @@ export class KochFractal extends BaseFractal<DrawObject, Config> implements Frac
 function* sequence(width, height, iterations): IterableIterator<DrawObject> {
     const alpha = -Math.PI / 3;
 
-    let lines = [
+    let lines: DrawableObject[] = [
         {
             x1: width / 3,
             y1: height * 0.675,
@@ -80,7 +85,7 @@ function* sequence(width, height, iterations): IterableIterator<DrawObject> {
             iteration
         }
 
-        const newLines = [];
+        const newLines: DrawableObject[] = [];
         for (let i=0; i<lines.length; i++) {
             yield lines[i];
         

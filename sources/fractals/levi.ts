@@ -22,10 +22,10 @@ export class LeviFractal extends BaseFractal<DrawObject, Config> implements Frac
         return {
             drawCount: 50,
             iterations: 20
-        }
+        };
     }
     protected ctxGlobals() {
-        this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)"
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
     }
 
     protected async getSequence() {
@@ -58,7 +58,7 @@ function* sequence(width: number, height: number, iterations: number): IterableI
     const cosA = Math.cos(radianAngle);
     const sinA = Math.sin(radianAngle);
 
-    let pairs = [
+    let pairs: Point[][] = [
         [
             {
                 x: width / 3,
@@ -74,7 +74,7 @@ function* sequence(width: number, height: number, iterations: number): IterableI
     let iteration = -1;
 
     while (++iteration < iterations) {
-        const newPairs = [];
+        const newPairs: Point[][] = [];
         
         yield {
             clear: true,
@@ -100,7 +100,7 @@ function* sequence(width: number, height: number, iterations: number): IterableI
                 y: cosA * (xDif * sinA + yDif * cosA) + y1
             };
 
-            newPairs.push([p1,a3], [a3,p2]);
+            newPairs.push([p1, a3], [a3, p2]);
         }
         
         pairs = newPairs;
