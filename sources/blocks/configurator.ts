@@ -105,7 +105,7 @@ export class Configurator {
     }
 
     private getConfig() {
-        const config = {};
+        const config: Record<string, string | number> = {};
         for (const input of this.inputs) {
             config[input.id] = +input.value || input.value;
         }

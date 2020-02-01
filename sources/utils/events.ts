@@ -19,23 +19,23 @@ export class EventSystem<E extends string> {
 	public on(name: E, callback: any, context?: any, once?: boolean) {
 		this.events[name] = this.events[name] || [];
 		this.events[name].push({
-            callback,
+			callback,
 			context: context || this.context,
 			once
-        });
+		});
 	}
 	public detach(name: E, context?: any) {
 		if (!this.events[name]) {
-            return;
-        }
-        if (context) {
-            this.events[name] = this.events[name].filter(ev => ev.context !== context);
-        } else {
+			return;
+		}
+		if (context) {
+			this.events[name] = this.events[name].filter(ev => ev.context !== context);
+		} else {
 			this.events[name] = [];
-        }
+		}
 	}
 	public fire(name: E, args?: any[]): boolean {
-		if (typeof args === "undefined"){
+		if (typeof args === "undefined") {
 			args = [];
 		}
 
@@ -44,12 +44,12 @@ export class EventSystem<E extends string> {
 			const res = this.events[name].map(
 				e => {
 					if (e.once) {
-						toDelete.push({name, context: e.context});
+						toDelete.push({ name, context: e.context });
 					}
 					return e.callback.apply(e.context, args);
 				}
 			);
-			toDelete.forEach(({name, context}) => this.detach(name, context));
+			toDelete.forEach(({ name, context }) => this.detach(name, context));
 			return res.indexOf(false) < 0;
 		}
 		return true;

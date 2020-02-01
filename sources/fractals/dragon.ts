@@ -30,13 +30,13 @@ function* sequence(width: number, height: number, iterations: number) {
 
     while (++iteration < iterations) {
         const newPairs: [Point, Point, number][] = [];
-        
+
         yield {
             clear: true,
             iteration: iteration + 1
         }
 
-        for (let i=0; i<pairs.length; i++) {
+        for (let i = 0; i < pairs.length; i++) {
             const [p1, p2, k] = pairs[i];
 
             yield {
@@ -44,20 +44,20 @@ function* sequence(width: number, height: number, iterations: number) {
                 p2
             }
 
-            const {x: x1, y: y1} = p1;
-            const {x: x2, y: y2} = p2;
+            const { x: x1, y: y1 } = p1;
+            const { x: x2, y: y2 } = p2;
 
             const xDif = x2 - x1;
             const yDif = y2 - y1;
 
             const p3 = {
-                x: cosA * (xDif * cosA - yDif * sinA*k) + x1,
-                y: cosA * (xDif * sinA*k + yDif * cosA) + y1
+                x: cosA * (xDif * cosA - yDif * sinA * k) + x1,
+                y: cosA * (xDif * sinA * k + yDif * cosA) + y1
             };
 
             newPairs.push([p1, p3, 1], [p3, p2, -1]);
         }
-        
+
         pairs = newPairs;
     }
 }

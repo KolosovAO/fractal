@@ -26,7 +26,7 @@ export class SpiralFractal extends BaseFractal<DrawObject, {}> implements Fracta
         this.ctx.stroke();
     }
 
-    protected drawObject({p1, p2}: DrawObject) {
+    protected drawObject({ p1, p2 }: DrawObject) {
         this.ctx.moveTo(p1.x, p1.y);
         this.ctx.lineTo(p2.x, p2.y);
     }
@@ -40,7 +40,7 @@ function* sequence(width: number, height: number): IterableIterator<DrawObject> 
         y
     };
 
-    for (let i=0; i<4000; i++) {
+    for (let i = 0; i < 4000; i++) {
         const angle = 0.1 * i;
 
         const p2 = {
@@ -53,5 +53,5 @@ function* sequence(width: number, height: number): IterableIterator<DrawObject> 
             p2
         }
         p1 = p2;
-      }
+    }
 }

@@ -32,7 +32,7 @@ export class KochFractal extends BaseFractal<DrawObject, Config> implements Frac
         this.ctx.stroke();
     }
 
-    protected drawObject({p1, p2, clear, iteration}: DrawObject) {
+    protected drawObject({ p1, p2, clear, iteration }: DrawObject) {
         if (clear) {
             this.ctx.stroke();
             this.clear();
@@ -77,27 +77,27 @@ function* sequence(width: number, height: number, iterations: number): IterableI
 
     let iteration = -1;
 
-    while(++iteration < iterations) {
+    while (++iteration < iterations) {
         yield {
             clear: true,
             iteration
         };
 
         const newLines: Array<{ x1: number; x2: number; y1: number; y2: number }> = [];
-        for (let i=0; i<lines.length; i++) {        
-            const {x1, y1, x2, y2} = lines[i];
+        for (let i = 0; i < lines.length; i++) {
+            const { x1, y1, x2, y2 } = lines[i];
 
             yield {
-                p1: {x: x1, y: y1},
-                p2: {x: x2, y: y2},
+                p1: { x: x1, y: y1 },
+                p2: { x: x2, y: y2 },
             };
 
             const x3 = x1 + (x2 - x1) / 3;
             const y3 = y1 + (y2 - y1) / 3;
-        
+
             const x5 = x1 + (x2 - x1) * 2 / 3;
             const y5 = y1 + (y2 - y1) * 2 / 3;
-        
+
             const x4 = x3 + (x5 - x3) * Math.cos(alpha) - (y5 - y3) * Math.sin(alpha);
             const y4 = y3 + (y5 - y3) * Math.cos(alpha) + (x5 - x3) * Math.sin(alpha);
 

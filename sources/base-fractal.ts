@@ -17,8 +17,8 @@ export abstract class BaseFractal<T, U extends {}> implements Fractal {
     private running: boolean;
     private sequence: IterableIterator<T> | null;
 
-    constructor(ctx: CanvasRenderingContext2D, configWithEvents: DefaultConfig & {events: FractalEventSystem}) {
-        const {events, ...config} = configWithEvents;
+    constructor(ctx: CanvasRenderingContext2D, configWithEvents: DefaultConfig & { events: FractalEventSystem }) {
+        const { events, ...config } = configWithEvents;
         this.events = events;
 
         this.config = {
@@ -26,7 +26,7 @@ export abstract class BaseFractal<T, U extends {}> implements Fractal {
             ...config,
             ...this.getOwnConfig()
         }
-    
+
         this.ctx = ctx;
         this.ctxDefaults();
         this.ctxGlobals();
@@ -65,7 +65,7 @@ export abstract class BaseFractal<T, U extends {}> implements Fractal {
         this.destroyEvents();
     }
     public updateConfig(config: U): void {
-        this.config = {...this.config, ...config};
+        this.config = { ...this.config, ...config };
         this.refresh();
     }
     public clear(): void {
@@ -120,7 +120,7 @@ export abstract class BaseFractal<T, U extends {}> implements Fractal {
             this.drawObject(object);
             count--;
         }
-        
+
         this.onDrawEnd();
 
         if (this.running) {

@@ -17,7 +17,7 @@ import { PythagorasTree } from "./fractals/pythagoras-tree";
 import { PrimeNumberFractal } from "./fractals/prime-number";
 
 export function factory(type: FractalType, ctx: CanvasRenderingContext2D, config: any) {
-    switch(type) {
+    switch (type) {
         case FractalType.prime:
             return new PrimeFractal(ctx, config);
         case FractalType.serpinski:

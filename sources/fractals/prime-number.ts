@@ -48,7 +48,7 @@ export class PrimeNumberFractal extends BaseFractal<DrawObject, Config> implemen
         return sequence(this.config.width, this.config.height, this.config);
     }
 
-    protected drawObject({x, y, w, colorArray}: DrawObject) {
+    protected drawObject({ x, y, w, colorArray }: DrawObject) {
         const imageData = new ImageData(colorArray, w);
         this.ctx.putImageData(imageData, x, y);
     }
@@ -56,7 +56,7 @@ export class PrimeNumberFractal extends BaseFractal<DrawObject, Config> implemen
 
 const WIDTH_STEP = 8;
 
-function* sequence(width: number, height: number, {red, green, blue, alpha, type}: Config): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number, { red, green, blue, alpha, type }: Config): IterableIterator<DrawObject> {
     let x = 0;
     const primesMap = getPrimesMap(width * height);
     const transformFN = TYPE_TO_FN_MAP[type] || TYPE_TO_FN_MAP["&"];
@@ -75,7 +75,7 @@ function* sequence(width: number, height: number, {red, green, blue, alpha, type
                 colorArray[i + 3] = alpha;
             }
         }
-        yield {x, y: 0, w, colorArray};
+        yield { x, y: 0, w, colorArray };
 
         x += WIDTH_STEP;
     }

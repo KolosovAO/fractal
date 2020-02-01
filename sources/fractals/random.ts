@@ -20,7 +20,7 @@ export class RandomPointFractal extends BaseFractal<Point, Config> implements Fr
         return sequence(this.config.width, this.config.height, this.config.radius);
     }
 
-    protected drawObject({x, y}: Point) {
+    protected drawObject({ x, y }: Point) {
         this.ctx.beginPath();
         this.ctx.arc(x, y, 1, 0, 2 * Math.PI, true);
         this.ctx.fill();
@@ -37,7 +37,7 @@ function* sequence(width: number, height: number, radius: number): IterableItera
         y
     }
 
-    while(true) {
+    while (true) {
         const percent = Math.random();
 
         const newX = x + Math.cos(2 * Math.PI * percent) * radius;
@@ -46,7 +46,7 @@ function* sequence(width: number, height: number, radius: number): IterableItera
         if (newX > width || newY > height || newX < 0 || newY < 0) {
             continue;
         }
-        
+
         x = newX;
         y = newY;
 

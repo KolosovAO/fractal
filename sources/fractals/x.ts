@@ -14,7 +14,7 @@ export class XFractal extends BaseFractal<DrawObject, {}> implements Fractal {
             drawCount: 40
         }
     }
-    
+
     protected async getSequence() {
         return sequence(this.config.width, this.config.height);
     }
@@ -29,7 +29,7 @@ export class XFractal extends BaseFractal<DrawObject, {}> implements Fractal {
         this.ctx.stroke();
     }
 
-    protected drawObject({x, y, sizeX, sizeY}: DrawObject) {
+    protected drawObject({ x, y, sizeX, sizeY }: DrawObject) {
         this.ctx.moveTo(x - sizeX / 2, y);
         this.ctx.lineTo(x + sizeX / 2, y);
 
@@ -50,7 +50,7 @@ function* sequence(width: number, height: number): IterableIterator<DrawObject> 
         }
     ];
     while (true) {
-        for (let i=0; i<points.length; i++) {
+        for (let i = 0; i < points.length; i++) {
             yield points[i];
         }
         sizeX /= 2;

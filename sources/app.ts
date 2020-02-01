@@ -5,6 +5,8 @@ import { EventSystem } from "./utils/events";
 import { Configurator } from "./blocks/configurator";
 import { objectKeys } from "./ts-utils/object-keys";
 
+const SHOW_HELP_DELAY = 3000;
+
 export class Application {
     public canvas: HTMLCanvasElement;
     public ctx: CanvasRenderingContext2D;
@@ -33,7 +35,7 @@ export class Application {
 
         const width = window.innerWidth;
         const height = window.innerHeight + 4;
-    
+
         canvas.style.width = width + "px";
         canvas.style.height = height + "px";
         this.width = canvas.width = width;
@@ -90,17 +92,17 @@ export class Application {
             const img = this.canvas.toDataURL("impage/png");
             const a = document.createElement("a");
             a.href = img;
-            a.download = "fractal_" + Date.now() % 2**8 + ".png";
+            a.download = "fractal_" + Date.now() % 2 ** 8 + ".png";
             window.location.href = img;
             a.click();
             this.fractal.start();
         });
 
-        this.events.on(FractalEvent.updateConfig, config => {
+        this.events.on(FractalEvent.updateConfig, (config: any) => {
             this.fractal.updateConfig(config);
         });
 
-        this.events.on(FractalEvent.showHelp, (msg: string, delay = 3000) => {
+        this.events.on(FractalEvent.showHelp, (msg: string) => {
             if (this.fractalHelperMessageTimeout) {
                 clearTimeout(this.fractalHelperMessageTimeout);
                 document.body.removeChild(this.fractalHelperMessage);
@@ -110,7 +112,7 @@ export class Application {
             this.fractalHelperMessageTimeout = setTimeout(() => {
                 document.body.removeChild(this.fractalHelperMessage);
                 this.fractalHelperMessageTimeout = null;
-            }, delay);
+            }, SHOW_HELP_DELAY);
         });
 
         this.canvas.addEventListener("click", (e: MouseEvent) => this.showMenu(e));
@@ -126,7 +128,7 @@ export class Application {
             this.showMenu(e);
         });
         document.addEventListener("keydown", (e: KeyboardEvent) => {
-            switch(e.keyCode) {
+            switch (e.keyCode) {
                 case KeyCode.ESC:
                     if (this.popup.isOpened()) {
                         this.popup.hide();

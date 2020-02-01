@@ -22,7 +22,7 @@ export class Universe extends BaseFractal<DrawObject, {}> implements Fractal {
         return sequence(this.config.width, this.config.height);
     }
 
-    protected drawObject({x, y, radius, color}: DrawObject) {
+    protected drawObject({ x, y, radius, color }: DrawObject) {
         this.ctx.beginPath();
         this.ctx.fillStyle = `rgba(${color}, ${color}, ${color}, 0.5)`;
         this.ctx.arc(x, y, radius, 0, 2 * Math.PI, true);
@@ -51,11 +51,11 @@ function* sequence(width: number, height: number): IterableIterator<DrawObject> 
     while (objs.length < 10000) {
         const newObjs: DrawObject[] = [];
 
-        for (let i=0; i<objs.length; i++) {
-            const {x, y, radius, color, ring} = objs[i];
+        for (let i = 0; i < objs.length; i++) {
+            const { x, y, radius, color, ring } = objs[i];
             const sattelites = rand(1, 8);
 
-            for (let j=0; j<sattelites; j++) {
+            for (let j = 0; j < sattelites; j++) {
                 const percent = (j + 1) / sattelites;
                 const o = {
                     x: x + Math.cos(2 * Math.PI * percent) * ring,

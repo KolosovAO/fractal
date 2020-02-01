@@ -22,7 +22,7 @@ export enum FractalType {
 
 export interface Fractal {
     ctx: CanvasRenderingContext2D;
-    config: {[key: string]: any};
+    config: { [key: string]: any };
     events: FractalEventSystem;
     start(): void;
     stop(): void;

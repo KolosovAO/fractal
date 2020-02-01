@@ -2,7 +2,7 @@ import { FractalEventSystem, FractalEvent } from "../types";
 
 export class Popup {
     public container: HTMLElement;
-    public events: FractalEventSystem; 
+    public events: FractalEventSystem;
 
     private control: HTMLElement;
     private opened: boolean;
@@ -29,7 +29,7 @@ export class Popup {
         control.onclick = e => {
             const id = (e.target as HTMLElement).id;
 
-            switch(id) {
+            switch (id) {
                 case "refresh":
                     this.events.fire(FractalEvent.refresh);
                     this.hide();
@@ -65,7 +65,7 @@ export class Popup {
             this.opened = true;
         }
         if (this.lastX) {
-            const diff = ((this.lastX - x)**2 + (this.lastY - y)**2)**.5;
+            const diff = ((this.lastX - x) ** 2 + (this.lastY - y) ** 2) ** .5;
             if (diff < 100) {
                 return;
             }

@@ -42,7 +42,7 @@ export class MandelbrotFractal extends BaseFractal<DrawObject, Config> implement
         }
     }
 
-    protected drawObject({x, y, w, colorArray}: DrawObject) {
+    protected drawObject({ x, y, w, colorArray }: DrawObject) {
         const imageData = new ImageData(colorArray, w);
         this.ctx.putImageData(imageData, x, y);
     }
@@ -92,7 +92,7 @@ const COLORS: RGBA[] = [
 
 const WIDTH_STEP = 8;
 
-function* sequence(width: number, height: number, {iterations, xCoords:[xStart, xEnd], yCoords:[yStart, yEnd]}: Config): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number, { iterations, xCoords: [xStart, xEnd], yCoords: [yStart, yEnd] }: Config): IterableIterator<DrawObject> {
     const xStep = (xEnd - xStart) / width;
     const yStep = (yEnd - yStart) / height;
 
@@ -112,13 +112,13 @@ function* sequence(width: number, height: number, {iterations, xCoords:[xStart, 
             let iter = 0;
             let zx = 0;
             let zy = 0;
- 
+
             do {
                 const xt = zx * zy;
                 zx = zx * zx - zy * zy + cx;
                 zy = 2 * xt + cy;
                 iter++;
-            } while(iter < iterations && (zx * zx + zy * zy) < 4)
+            } while (iter < iterations && (zx * zx + zy * zy) < 4)
 
             const [r, g, b, a] = iter === iterations
                 ? MAX_ITER_COLORS
@@ -129,7 +129,7 @@ function* sequence(width: number, height: number, {iterations, xCoords:[xStart, 
             colorArray[i + 3] = a;
         }
 
-        yield {x, y: 0, w, colorArray};
+        yield { x, y: 0, w, colorArray };
 
         x += WIDTH_STEP;
     }

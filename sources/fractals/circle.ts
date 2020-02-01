@@ -32,7 +32,7 @@ export class CircleFractal extends BaseFractal<DrawObject, Config> implements Fr
         this.ctx.stroke();
     }
 
-    protected drawObject({p1, p2, clear}: DrawObject) {
+    protected drawObject({ p1, p2, clear }: DrawObject) {
         if (clear) {
             this.ctx.stroke();
             this.clear();
@@ -62,11 +62,11 @@ function* sequence(width: number, height: number, points: number, iterations: nu
 
     let coef = 2;
 
-    while(iterations--) {
+    while (iterations--) {
         yield {
             clear: true
         }
-        for (let i=1; i<points; i++) {
+        for (let i = 1; i < points; i++) {
             yield {
                 p1: getDot(i),
                 p2: getDot(i * coef)

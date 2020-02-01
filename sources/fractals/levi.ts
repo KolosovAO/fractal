@@ -34,7 +34,7 @@ export class LeviFractal extends BaseFractal<DrawObject, Config> implements Frac
         this.ctx.stroke();
     }
 
-    protected drawObject({p1, p2, clear, iteration}: DrawObject) {
+    protected drawObject({ p1, p2, clear, iteration }: DrawObject) {
         if (clear) {
             this.ctx.stroke();
             this.clear();
@@ -71,13 +71,13 @@ function* sequence(width: number, height: number, iterations: number): IterableI
 
     while (++iteration < iterations) {
         const newPairs: Point[][] = [];
-        
+
         yield {
             clear: true,
             iteration: iteration + 1
         }
 
-        for (let i=0; i<pairs.length; i++) {
+        for (let i = 0; i < pairs.length; i++) {
             const [p1, p2] = pairs[i];
 
             yield {
@@ -85,8 +85,8 @@ function* sequence(width: number, height: number, iterations: number): IterableI
                 p2
             }
 
-            const {x: x1, y: y1} = p1;
-            const {x: x2, y: y2} = p2;
+            const { x: x1, y: y1 } = p1;
+            const { x: x2, y: y2 } = p2;
 
             const xDif = x2 - x1;
             const yDif = y2 - y1;
@@ -98,7 +98,7 @@ function* sequence(width: number, height: number, iterations: number): IterableI
 
             newPairs.push([p1, a3], [a3, p2]);
         }
-        
+
         pairs = newPairs;
     }
 }

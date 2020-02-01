@@ -34,10 +34,10 @@ export class TFractal extends BaseFractal<DrawObject, Config> implements Fractal
         this.ctx.stroke();
     }
 
-    protected drawObject({x, y, size}: DrawObject) {
+    protected drawObject({ x, y, size }: DrawObject) {
         const pattern = this.config.pattern.split(",");
-        for (let i=0; i<pattern.length; i++) {
-            for (let j=0; j<pattern[i].length; j++) {
+        for (let i = 0; i < pattern.length; i++) {
+            for (let j = 0; j < pattern[i].length; j++) {
                 if (pattern[i][j] === "1") {
                     this.ctx.fillRect(x + size * i, y + size * j, size, size);
                 }
@@ -48,11 +48,11 @@ export class TFractal extends BaseFractal<DrawObject, Config> implements Fractal
 
 function* sequence(width: number, height: number, size: number): IterableIterator<DrawObject> {
     const baseSize = size;
-    while(size < height) {
-        for (let x=0; x<width; x+=size) {
-            for (let y=0; y<height; y+=size) {
+    while (size < height) {
+        for (let x = 0; x < width; x += size) {
+            for (let y = 0; y < height; y += size) {
                 yield {
-                    x, 
+                    x,
                     y,
                     size: size / baseSize
                 };

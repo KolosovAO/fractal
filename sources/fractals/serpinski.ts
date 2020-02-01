@@ -22,7 +22,7 @@ export class SerpinskiFractal extends BaseFractal<Point, Config> implements Frac
     protected ctxGlobals() {
         this.ctx.fillStyle = "#000";
     }
-    protected drawObject({x, y}: Point) {
+    protected drawObject({ x, y }: Point) {
         this.ctx.beginPath();
         this.ctx.arc(x, y, this.config.pointSize, 0, 2 * Math.PI, true);
         this.ctx.fill();
@@ -35,7 +35,7 @@ function random(value: number): number {
 
 function* sequence(width: number, height: number, count: number): IterableIterator<Point> {
     const points: Point[] = [];
-    for (let i=0; i<count; i++) {
+    for (let i = 0; i < count; i++) {
         const point = {
             x: random(width),
             y: random(height)
@@ -46,13 +46,13 @@ function* sequence(width: number, height: number, count: number): IterableIterat
 
     let active = points[random(count)];
 
-    while(true) {
+    while (true) {
         const target = points[random(count)];
 
         const x = (target.x + active.x) / 2;
         const y = (target.y + active.y) / 2;
-        
-        active = {x, y};
+
+        active = { x, y };
         yield active;
     }
 }

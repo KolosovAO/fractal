@@ -30,7 +30,7 @@ export class PrimeFractal extends BaseFractal<DrawObject, Config> implements Fra
         this.ctx.stroke();
     }
 
-    protected drawObject({x1, y1, x2, y2}: DrawObject) {
+    protected drawObject({ x1, y1, x2, y2 }: DrawObject) {
         this.ctx.moveTo(x1, y1);
         this.ctx.lineTo(x2, y2);
     }

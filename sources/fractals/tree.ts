@@ -37,7 +37,7 @@ export class TreeFractal extends BaseFractal<DrawObject, Config> implements Frac
         this.ctx.stroke();
     }
 
-    protected drawObject({x1, x2, y1, y2, lineWidth}: DrawObject) {
+    protected drawObject({ x1, x2, y1, y2, lineWidth }: DrawObject) {
         this.ctx.lineWidth = lineWidth;
         this.ctx.moveTo(x1, y1);
         this.ctx.lineTo(x2, y2);
@@ -48,7 +48,7 @@ function* sequence(width: number, height: number, angle: number): IterableIterat
     let dist = height * 0.6;
     let lineWidth = 15;
 
-   angle = Math.PI * angle / 180;
+    angle = Math.PI * angle / 180;
 
     let lines: DrawObject[] = [
         {
@@ -61,7 +61,7 @@ function* sequence(width: number, height: number, angle: number): IterableIterat
         }
     ];
 
-    while(dist > 1) {
+    while (dist > 1) {
         dist /= 1.8;
         lineWidth /= 1.4;
         const newLines: DrawObject[] = [];
@@ -84,7 +84,7 @@ function* sequence(width: number, height: number, angle: number): IterableIterat
                     y2: line.y2 + dist * Math.sin(line.angle - angle),
                     lineWidth,
                     angle: line.angle - angle
-                } 
+                }
             )
         }
 

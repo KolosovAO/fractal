@@ -25,10 +25,10 @@ export class PythagorasTree extends BaseFractal<DrawObject, Config> implements F
         return sequence(this.config.width, this.config.height, size, this.config.depth);
     }
 
-    protected drawObject({points: [init, ...other], fill}: DrawObject) {
+    protected drawObject({ points: [init, ...other], fill }: DrawObject) {
         this.ctx.beginPath();
         this.ctx.moveTo(init.x, init.y);
-        for (const {x, y} of other) {
+        for (const { x, y } of other) {
             this.ctx.lineTo(x, y);
 
             this.ctx.fillStyle = fill;
@@ -38,7 +38,7 @@ export class PythagorasTree extends BaseFractal<DrawObject, Config> implements F
     }
 }
 
-const Point = (x: number, y: number) => ({x, y});
+const Point = (x: number, y: number) => ({ x, y });
 const depthToColor = (depth: number, total: number) => `hsl(${~~(depth / total * 360)},40%,60%)`;
 
 function* sequence(width: number, height: number, size: number, totalDepth: number): IterableIterator<DrawObject> {
@@ -55,7 +55,7 @@ function* sequence(width: number, height: number, size: number, totalDepth: numb
         for (const [x1, y1, x2, y2] of points) {
             const dx = x2 - x1;
             const dy = y1 - y2;
-        
+
             const x3 = x2 - dy;
             const y3 = y2 - dx;
             const x4 = x1 - dy;
