@@ -5,11 +5,6 @@ interface Config {
     iterations: number;
 }
 
-interface Point {
-    x: number;
-    y: number;
-}
-
 interface DrawObject {
     iteration?: number;
     clear?: boolean;
@@ -39,13 +34,14 @@ export class LeviFractal extends BaseFractal<DrawObject, Config> implements Frac
         this.ctx.stroke();
     }
 
-    protected drawObject({p1, p2, clear, iteration}) {
+    protected drawObject({p1, p2, clear, iteration}: DrawObject) {
         if (clear) {
             this.ctx.stroke();
             this.clear();
             this.ctx.fillText(iteration + " iteration", 20, 30);
             this.ctx.beginPath();
-        } else {
+        }
+        if (p1 && p2) {
             this.ctx.moveTo(p1.x, p1.y);
             this.ctx.lineTo(p2.x, p2.y);
         }

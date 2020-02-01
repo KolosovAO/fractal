@@ -6,7 +6,8 @@
       "sourceMap": true,
       "strictNullChecks": true,
       "downlevelIteration": true,
-      "lib": ["esnext", "dom"]
+      "lib": ["esnext", "dom"],
+      "noImplicitAny": true
     },
     "exclude": [
       "node_modules"

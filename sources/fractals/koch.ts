@@ -5,19 +5,12 @@ interface Config {
     iterations: number;
 }
 
-interface DrawableObject {
-    x1: number;
-    y1: number;
-    x2: number;
-    y2: number;
+interface DrawObject {
+    p1?: Point;
+    p2?: Point;
+    clear?: true;
+    iteration?: number;
 }
-
-interface NextIterationObject {
-    clear: true;
-    iteration: number;
-}
-
-type DrawObject = NextIterationObject | DrawableObject;
 
 export class KochFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getOwnConfig() {
@@ -27,7 +20,7 @@ export class KochFractal extends BaseFractal<DrawObject, Config> implements Frac
         }
     }
     protected ctxGlobals() {
-        this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)"
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
     }
     protected async getSequence() {
         return sequence(this.config.width, this.config.height, this.config.iterations);
@@ -39,24 +32,29 @@ export class KochFractal extends BaseFractal<DrawObject, Config> implements Frac
         this.ctx.stroke();
     }
 
-    protected drawObject({x1, y1, x2, y2, clear, iteration}) {
+    protected drawObject({p1, p2, clear, iteration}: DrawObject) {
         if (clear) {
             this.ctx.stroke();
             this.clear();
+        }
+
+        if (iteration) {
             this.ctx.fillText(iteration + " iteration", 20, 30);
             this.ctx.beginPath();
-        } else {
-            this.ctx.moveTo(x1, y1);
-            this.ctx.lineTo(x2, y2);
+        }
+
+        if (p1 && p2) {
+            this.ctx.moveTo(p1.x, p1.y);
+            this.ctx.lineTo(p2.x, p2.y);
         }
     }
 }
 
 
-function* sequence(width, height, iterations): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number, iterations: number): IterableIterator<DrawObject> {
     const alpha = -Math.PI / 3;
 
-    let lines: DrawableObject[] = [
+    let lines: Array<{ x1: number; x2: number; y1: number; y2: number }> = [
         {
             x1: width / 3,
             y1: height * 0.675,
@@ -83,13 +81,16 @@ function* sequence(width, height, iterations): IterableIterator<DrawObject> {
         yield {
             clear: true,
             iteration
-        }
+        };
 
-        const newLines: DrawableObject[] = [];
-        for (let i=0; i<lines.length; i++) {
-            yield lines[i];
-        
+        const newLines: Array<{ x1: number; x2: number; y1: number; y2: number }> = [];
+        for (let i=0; i<lines.length; i++) {        
             const {x1, y1, x2, y2} = lines[i];
+
+            yield {
+                p1: {x: x1, y: y1},
+                p2: {x: x2, y: y2},
+            };
 
             const x3 = x1 + (x2 - x1) / 3;
             const y3 = y1 + (y2 - y1) / 3;

@@ -5,12 +5,7 @@ interface Config {
     radius: number;
 }
 
-interface DrawObject {
-    x: number;
-    y: number;
-}
-
-export class RandomPointFractal extends BaseFractal<DrawObject, Config> implements Fractal {
+export class RandomPointFractal extends BaseFractal<Point, Config> implements Fractal {
     protected getOwnConfig() {
         return {
             drawCount: 400,
@@ -25,7 +20,7 @@ export class RandomPointFractal extends BaseFractal<DrawObject, Config> implemen
         return sequence(this.config.width, this.config.height, this.config.radius);
     }
 
-    protected drawObject({x, y}) {
+    protected drawObject({x, y}: Point) {
         this.ctx.beginPath();
         this.ctx.arc(x, y, 1, 0, 2 * Math.PI, true);
         this.ctx.fill();
@@ -33,7 +28,7 @@ export class RandomPointFractal extends BaseFractal<DrawObject, Config> implemen
 }
 
 
-function* sequence(width: number, height: number, radius: number): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number, radius: number): IterableIterator<Point> {
     let x = width / 2;
     let y = height / 2;
 

@@ -6,17 +6,11 @@ interface Config {
     iterations: number;
 }
 
-interface Point {
-    x: number;
-    y: number;
-}
-
-interface DrawObject {
-    iteration?: number;
-    clear?: boolean;
+type DrawObject = {
     p1?: Point;
     p2?: Point;
-}
+    clear?: true;
+};
 
 export class CircleFractal extends BaseFractal<DrawObject, Config> implements Fractal {
     protected getOwnConfig() {
@@ -38,12 +32,13 @@ export class CircleFractal extends BaseFractal<DrawObject, Config> implements Fr
         this.ctx.stroke();
     }
 
-    protected drawObject({p1, p2, clear}) {
+    protected drawObject({p1, p2, clear}: DrawObject) {
         if (clear) {
             this.ctx.stroke();
             this.clear();
             this.ctx.beginPath();
-        } else {
+        }
+        if (p1 && p2) {
             this.ctx.moveTo(p1.x, p1.y);
             this.ctx.lineTo(p2.x, p2.y);
         }
@@ -57,7 +52,7 @@ function* sequence(width: number, height: number, points: number, iterations: nu
     }
     const radius = height / 2 - 40;
 
-    const getDot = (index: number) => {
+    const getDot = (index: number): Point => {
         const percent = (index % points) / points;
         return {
             x: center.x + Math.cos(2 * Math.PI * percent) * radius,

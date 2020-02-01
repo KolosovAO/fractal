@@ -48,7 +48,7 @@ export class PrimeNumberFractal extends BaseFractal<DrawObject, Config> implemen
         return sequence(this.config.width, this.config.height, this.config);
     }
 
-    protected drawObject({x, y, w, colorArray}) {
+    protected drawObject({x, y, w, colorArray}: DrawObject) {
         const imageData = new ImageData(colorArray, w);
         this.ctx.putImageData(imageData, x, y);
     }

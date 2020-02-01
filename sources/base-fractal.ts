@@ -83,7 +83,7 @@ export abstract class BaseFractal<T, U extends {}> implements Fractal {
     protected getOwnConfig(): U & Partial<DefaultConfig> {
         return {} as U;
     }
-    protected getEvents(): Partial<Record<FractalEvent, (...args) => void>> {
+    protected getEvents(): Partial<Record<FractalEvent, (...args: any[]) => void>> {
         return {};
     }
 
@@ -110,8 +110,8 @@ export abstract class BaseFractal<T, U extends {}> implements Fractal {
         this.onDrawStart();
 
         let count = this.config.drawCount;
-        while (count && this.running) {
-            const object = this.sequence!.next().value;
+        while (count && this.running && this.sequence) {
+            const object = this.sequence.next().value;
             if (!object) { // [TODO] fix it
                 this.onDrawEnd();
                 this.stop();

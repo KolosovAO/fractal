@@ -34,7 +34,7 @@ export class TFractal extends BaseFractal<DrawObject, Config> implements Fractal
         this.ctx.stroke();
     }
 
-    protected drawObject({x, y, size}) {
+    protected drawObject({x, y, size}: DrawObject) {
         const pattern = this.config.pattern.split(",");
         for (let i=0; i<pattern.length; i++) {
             for (let j=0; j<pattern[i].length; j++) {

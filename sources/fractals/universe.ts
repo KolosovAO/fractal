@@ -1,8 +1,6 @@
 import { Fractal } from "../types";
 import { BaseFractal } from "../base-fractal";
 
-interface Config {}
-
 interface DrawObject {
     x: number;
     y: number;
@@ -11,7 +9,7 @@ interface DrawObject {
     ring: number;
 }
 
-export class Universe extends BaseFractal<DrawObject, Config> implements Fractal {
+export class Universe extends BaseFractal<DrawObject, {}> implements Fractal {
     protected getOwnConfig() {
         return {
             drawCount: 100
@@ -24,7 +22,7 @@ export class Universe extends BaseFractal<DrawObject, Config> implements Fractal
         return sequence(this.config.width, this.config.height);
     }
 
-    protected drawObject({x, y, radius, color}) {
+    protected drawObject({x, y, radius, color}: DrawObject) {
         this.ctx.beginPath();
         this.ctx.fillStyle = `rgba(${color}, ${color}, ${color}, 0.5)`;
         this.ctx.arc(x, y, radius, 0, 2 * Math.PI, true);

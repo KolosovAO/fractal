@@ -1,8 +1,6 @@
 import { Fractal } from "../types";
 import { BaseFractal } from "../base-fractal";
 
-interface Config {}
-
 interface DrawObject {
     x: number;
     y: number;
@@ -10,7 +8,7 @@ interface DrawObject {
     sizeY: number;
 }
 
-export class XFractal extends BaseFractal<DrawObject, Config> implements Fractal {
+export class XFractal extends BaseFractal<DrawObject, {}> implements Fractal {
     protected getOwnConfig() {
         return {
             drawCount: 40
@@ -31,7 +29,7 @@ export class XFractal extends BaseFractal<DrawObject, Config> implements Fractal
         this.ctx.stroke();
     }
 
-    protected drawObject({x, y, sizeX, sizeY}) {
+    protected drawObject({x, y, sizeX, sizeY}: DrawObject) {
         this.ctx.moveTo(x - sizeX / 2, y);
         this.ctx.lineTo(x + sizeX / 2, y);
 

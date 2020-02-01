@@ -22,7 +22,7 @@ export class PlaneFractal extends BaseFractal<DrawObject, Config> implements Fra
         return sequence(this.config.width, this.config.height, this.config.roughness);
     }
 
-    protected drawObject({x, y, color}) {
+    protected drawObject({x, y, color}: DrawObject) {
         this.ctx.beginPath();
         this.ctx.fillStyle = color;
         this.ctx.arc(x, y, 1, 0, 2 * Math.PI, true);
@@ -30,16 +30,16 @@ export class PlaneFractal extends BaseFractal<DrawObject, Config> implements Fra
     }
 }
 
-function* sequence(width, height, roughness): IterableIterator<DrawObject> {
+function* sequence(width: number, height: number, roughness: number): IterableIterator<DrawObject> {
     const h = 2 ** ~~Math.log2(height) + 1;
-    const m: number[][] = Array.from({length: h}, _ => Array.from({length: h}));
+    const m: number[][] = Array.from({length: h}, () => Array.from({length: h}));
 
     const deltaX = (width - h) / 2;
     const deltaY = (height - h) / 2;
 
-    const rand = v => -.5 * v + Math.random() * v;
-    const av = (...args) => args.reduce((s, v) => s + v) / args.length;
-    const color = value => `hsl(${Math.floor(value + 180)},50%,50%)`;
+    const rand = (v: number) => -.5 * v + Math.random() * v;
+    const av = (...args: number[]) => args.reduce((s, v) => s + v) / args.length;
+    const color = (v: number) => `hsl(${Math.floor(v + 180)},50%,50%)`;
 
     m[0][0] = rand(360);
     m[0][h-1] = rand(360);

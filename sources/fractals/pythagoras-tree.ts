@@ -5,11 +5,6 @@ interface Config {
     depth: number;
 }
 
-interface Point {
-    x: number;
-    y: number;
-}
-
 interface DrawObject {
     points: Point[];
     fill: string;
@@ -30,7 +25,7 @@ export class PythagorasTree extends BaseFractal<DrawObject, Config> implements F
         return sequence(this.config.width, this.config.height, size, this.config.depth);
     }
 
-    protected drawObject({points: [init, ...other], fill}) {
+    protected drawObject({points: [init, ...other], fill}: DrawObject) {
         this.ctx.beginPath();
         this.ctx.moveTo(init.x, init.y);
         for (const {x, y} of other) {

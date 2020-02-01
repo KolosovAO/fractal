@@ -42,7 +42,7 @@ export class MandelbrotFractal extends BaseFractal<DrawObject, Config> implement
         }
     }
 
-    protected drawObject({x, y, w, colorArray}) {
+    protected drawObject({x, y, w, colorArray}: DrawObject) {
         const imageData = new ImageData(colorArray, w);
         this.ctx.putImageData(imageData, x, y);
     }
